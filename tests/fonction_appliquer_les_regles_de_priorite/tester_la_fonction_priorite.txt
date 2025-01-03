@@ -1,0 +1,58 @@
+
+
+La date et l'heure UTC sont:Sat Aug 10 10:02:58 2024
+
+
+---------------Création d'elements dans la grille où on applique la priorite------------------
+ On cree des elements volontairement en collision pour tester si la fonction appliquer_les_regles_de_priorite_sur_les_collisions() fonctionne bien 
+-----------------------CONTENU_DE_LA_GRILLE QUI CONTIENT QUE LES ELEMENTS EN COLLISION---------------------------------
+2x5 =>  Gaulois
+1x5 >> 2x5
+age: 1
+
+3x5 =>  Gaulois
+2x5 >> 3x5
+age: 1
+
+3x5 =>  Gauloise
+3x4 >> 3x5
+age: 1
+
+3x5 =>  Gauloise
+4x5 >> 3x5
+age: 1
+
+4x5 =>  Gaulois
+5x5 >> 4x5
+age: 1
+
+----------------On applique la priorite---------------------------------------------
+Element priorisé qui va sur un emplacement occupé 
+Element doit retourner a son ancienne position 
+--------------------------------------------------
+ Gaulois
+5x5 >> 5x5
+age: 1
+
+--------------------------------------------------
+----------------------------------------CONTENU_DE_LA_GRILLE OU ON APPLIQUE LA PRIORITE---------------------------------
+2x5 =>  Gaulois
+1x5 >> 2x5
+age: 1
+
+3x4 =>  Gauloise
+3x4 >> 3x4
+age: 1
+
+3x5 =>  Gaulois
+2x5 >> 3x5
+age: 1
+
+4x5 =>  Gauloise
+4x5 >> 4x5
+age: 1
+
+5x5 =>  Gaulois
+5x5 >> 5x5
+age: 1
+

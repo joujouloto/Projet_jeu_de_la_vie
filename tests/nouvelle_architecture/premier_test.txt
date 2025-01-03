@@ -1,0 +1,27 @@
+La date et l'heure locales sont: Sun Oct 20 15:20:54 2024
+
+-------------------------Contenu de la grille---------------------------------------------------
+
+id_objet:1
+id_gaulois:1
+Gaulois 1
+;0x0;7x5
+age:1
+
+ 
+deplacement du 1er gaulois 7,5 à 7,6
+id_objet:1
+id_gaulois:1
+Gaulois 1
+;0x0;7x5;7x6
+age:1
+
+-------------------------Contenu de la grille---------------------------------------------------
+
+id_objet:1
+id_gaulois:1
+Gaulois 1
+;0x0;7x5;7x6
+age:1
+
+ 
