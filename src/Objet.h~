@@ -21,7 +21,6 @@ class Objet
 	Objet(string pNom);
 	Objet(int pNumero_ligne, int pNumero_colonne);
 	Objet(string pNom, int pNumero_ligne, int pNumero_colonne);
-        Objet(string pNom, Position pPosition);
 	
 	
 	//Méthodes d'accès aux atrributs

@@ -116,7 +116,7 @@ Objet("Gaulois",pNumero_ligne,pNumero_colonne)
 	
 }
 
-Gaulois::Gaulois(char pSexe, Position pPosition): Objet("Gaulois",pPosition)
+Gaulois Gaulois(char pSexe, Position pPosition): Objet("Gaulois",pPosition.getAbscisse(),pPosition.getOrdonnee())
 {
 
   age = 1 ;
@@ -417,6 +417,9 @@ void Gaulois::manger(_map grille)
 
 
 
+enum sexe_gaulois { homme = 'M' , femme = 'F'};
+
+
 void Gaulois::seReproduire(_map grille)
 {
 
@@ -430,19 +433,19 @@ void Gaulois::seReproduire(_map grille)
 	Position position_enfant;
 	bool trop_de_monde_autour = false;
 
-	if(!estOccupe( getPosition().a_gauche(), grille ) )
+	if(!estOccupe( getPosition().a_gauche() ) )
 	  {
 	    position_enfant = getPosition().a_gauche();
 	  }
-	else if( !estOccupe ( getPosition().a_droite(), grille ) )
+	  else if( !estOccupe ( getPosition().a_droite() ) )
 	    {
 	      position_enfant = getPosition().a_droite();
 	    }
-	else if ( ! estOccupe ( getPosition().en_haut(), grille ))
+	  else if ( ! estOccupe ( getPosition().en_haut() ))
 	    {
 	      position_enfant = getPosition().en_haut();
 	    }
-	else if ( ! estOccupe ( getPosition().en_bas(), grille))
+	  else if ( ! estOccupe ( getPosition().en_bas()))
 	    {
 	      position_enfant = getPosition().en_bas();
 	    }

@@ -44,9 +44,9 @@ class Jeu_v2
 	
 	void faire_manger_gaulois();
 	
+	
 	void faire_vieillir_population_gauloise();
 
-        void faire_reproduire_population();
 
 	//toString
 	string afficher_dans_chaine_contenu_grille();
