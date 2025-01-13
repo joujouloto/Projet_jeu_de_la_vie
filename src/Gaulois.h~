@@ -42,7 +42,7 @@ class Gaulois : public Objet, enable_shared_from_this<Gaulois>
 	Gaulois();
 	Gaulois(char pSexe);
 	Gaulois(char pSexe, int pNumero_ligne, int pNumero_colonne);
-	
+        Gaulois(char pSexe, Position pPosition);
 	
 	
 	
@@ -68,7 +68,7 @@ class Gaulois : public Objet, enable_shared_from_this<Gaulois>
 	
 	
 	void vieillir();
-  void seReproduire();
+        void seReproduire(_map grille);
 	
 	//Fonctions mouvements
 	void seDeplacer(int pNumero_ligne, int pNumero_colonne, _map grille);

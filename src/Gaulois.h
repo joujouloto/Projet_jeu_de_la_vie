@@ -83,7 +83,7 @@ class Gaulois : public Objet, enable_shared_from_this<Gaulois>
 	
 	bool estOccupe(Position position, _map grille); 
 	
-	
+        shared_ptr < Gaulois > recherche_partenaire_masculin( _map grille);
 	void manger(_map grille);
 	
 	
