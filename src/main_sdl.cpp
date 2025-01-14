@@ -110,7 +110,13 @@ void afficher_grille_SDL(SDL_Renderer *renderer, _grille grille )
 	SDL_Surface * image_gauloise = SDL_LoadBMP("../../images/gauloise.bmp");
 	
 	SDL_Surface * image_animal = SDL_LoadBMP("../../images/animal.bmp");
-		
+
+	SDL_Surface * image_gaulois_enfant_garcon =
+	  SDL_LoadBMP("../../images/gaulois_enfant_garcon.bmp");
+
+	SDL_Surface * image_gaulois_enfant_fille =
+	  SDL_LoadBMP("../../images/gaulois_enfant_fille.bmp");
+	
 		
 	//Textures
 	SDL_Texture * texture_vide = SDL_CreateTextureFromSurface(renderer, image_vide);
@@ -122,6 +128,10 @@ void afficher_grille_SDL(SDL_Renderer *renderer, _grille grille )
 	SDL_Texture * texture_gauloise = SDL_CreateTextureFromSurface(renderer, image_gauloise);
 	
 	SDL_Texture * texture_animal = SDL_CreateTextureFromSurface(renderer, image_animal);
+
+	SDL_Texture * texture_gaulois_garcon = SDL_CreateTextureFromSurface(renderer, image_gaulois_enfant_garcon);
+
+	SDL_Texture * texture_gaulois_fille = SDL_CreateTextureFromSurface(renderer, image_gaulois_enfant_fille);
 	
 	//169*221
 	
@@ -154,11 +164,27 @@ void afficher_grille_SDL(SDL_Renderer *renderer, _grille grille )
 					
 				if(gaulois->getSexe()=='M')
 				{
-					SDL_RenderCopy(renderer, texture_gaulois, NULL, &single_rect);
+				  if ( gaulois->getAge() > 5 )
+				    {
+				      SDL_RenderCopy(renderer, texture_gaulois, NULL, &single_rect);
+				    }else
+				    {
+				      SDL_RenderCopy(renderer, texture_gaulois_garcon, NULL, &single_rect);
+				    }
+				  
+
+
+					
 				}
 				else
 				{
+				  if( gaulois->getAge() > 5 )
+				    {
 					SDL_RenderCopy(renderer, texture_gauloise, NULL, &single_rect);
+				    }else
+				    {
+				      SDL_RenderCopy(renderer, texture_gaulois_fille, NULL, &single_rect);
+				    }
 				}
 		
 		}else if((*it)->getType()=="Animal")
