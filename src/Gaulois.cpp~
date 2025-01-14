@@ -379,9 +379,51 @@ bool Gaulois::estOccupe(Position position, _map grille)
 	
 }
 
-Gaulois Gaulois::recherche_partenaire_masculin( _map grille)
+shared_ptr < Gaulois > Gaulois::recherche_partenaire_masculin( _map grille)
 {
+  bool trouve_partenaire_masculin = false;
+  shared_ptr < Gaulois > partenaire_masculin;
+  shared_ptr < Gaulois > gaulois_e;
 
+  for ( set < shared_ptr<Objet> > :: iterator it = grille->begin() ; it != grille->end() && !trouve_partenaire_masculin ; it++)
+    {
+      gaulois_e = dynamic_pointer_cast<Gaulois> (objet);
+
+      if( getPosition().a_gauche() == gaulois_e->getPosition() )
+	{
+	  if( gaulois_e->getSexe() == homme )
+	 {
+	   partenaire_masculin = gaulois_e;
+
+	   trouve_partenaire_masculin = true ;
+	   
+	  
+	 }
+	}else if ( getPosition().a_droite() == gaulois_e->getPosition() )
+	{
+	  if( gaulois_e->getSexe() == homme )
+	   {
+	     partenaire_masculin = gaulois_e;
+             trouve_partenaire_masculin = true ;
+	   }
+	}else if ( getPosition().en_haut() == gaulois_e->getPosition() )
+	{
+	  if( gaulois_e->getSexe() == homme )
+	   {
+	     partenaire_masculin = gaulois_e;
+             trouve_partenaire_masculin = true ;
+	   }
+	}else if ( getPosition().en_bas() == gaulois_e->getPosition() )
+	{
+	  if( gaulois_e->getSexe() == homme )
+	   {
+	     partenaire_masculin = gaulois_e;
+	     trouve_partenaire_masculin = true ;
+	   }
+	}
+    }
+
+  return partenaire_masculin;
   
 }
 
@@ -435,26 +477,22 @@ void Gaulois::seReproduire(_map grille)
 	bool trop_de_monde_autour = false;
 
 
-	bool trouve_partenaire_masculin = false;
 	//On a besoin de cette variable booléenne pour
 	//On va checker à gauche à droite ...etc si y a un partenaire masculin
 	//Des que l'on a trouvé on sort des if (on fait pas de boucles car y a que 4 cas)
 	
 	//Si on ne met ps cette condition de vérifier que les femmes, les gaulois(es) vont
 	//se reproduirent 2 fois
+
+	shared_ptr < Gaulois > partenaire_masculin;
 	
-	if( getSexe()== 'F' )
+	if( getSexe()== femme )
 	  {
 
 	    //Doit chercher un partenaire masculin
+	    partenaire_masculin = recherche_partenaire_masculin( _map grille)
 	    
-	    
-	    
-	    
-	  }
-	
-
-	if(!estOccupe( getPosition().a_gauche(), grille ) )
+	      	if(!estOccupe( getPosition().a_gauche(), grille ) )
 	  {
 	    position_enfant = getPosition().a_gauche();
 	  }
@@ -492,5 +530,10 @@ void Gaulois::seReproduire(_map grille)
 
 	    grille->insert(enfant);
 
-	  }  
+	  }
+	    
+	 }
+	
+
+  
 }

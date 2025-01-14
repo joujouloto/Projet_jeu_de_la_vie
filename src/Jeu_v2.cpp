@@ -248,10 +248,16 @@ void Jeu_v2::faire_vieillir_population_gauloise()
 	random_device rd;
 	mt19937 gen(rd());
 	
-	uniform_int_distribution<> dis(1, 10);//uniform distribution between 1 and 15
+	uniform_int_distribution<> dis(1, 10);//le nombre aléatoire peut tomber entre 1 et 10
+	
 	
 	int variable_qui_fait_mourir = 10;
+	//On initialise la variable qui récupéra le nombre aléatoire à 10
+
+
 	
+	shared_ptr < set < shared_ptr < Gaulois > > > gaulois_qui_doivent_mourir =
+	  make_shared< set < shared_ptr< Gaulois > > > ();
 	
 	for ( _it_grille it=grille->begin(); it!=grille->end(); ++it) 
 	{	
@@ -262,18 +268,36 @@ void Jeu_v2::faire_vieillir_population_gauloise()
 			gaulois->vieillir();
 			
 			variable_qui_fait_mourir = dis(gen);
+			//On récupère le nombre aléatoire de la distribution uniforme
+			//dans variable qui fait mourir
 			
-			
+			//Si l'âge du gaulois est supérieur à 10
+			//et que la variable aléatoire est égal à 3 ou moins
+			//on fait mourir le gaulois
+			//quand le gaulois a atteint l'âge de 10, il a 30% de chances de
+			//mourir
 			if(gaulois->getAge() > 10 &&  variable_qui_fait_mourir <= 3 )
 			{
 				//cout << variable_qui_fait_mourir << endl;
 				//cout << gaulois->getAge() << endl;
 				
-				grille->erase(gaulois);
+			  //grille->erase(gaulois);
+			  cout << "ajout gaulois dans set gaulois_qui_doivent_mourir" << endl;
+			  gaulois_qui_doivent_mourir->insert(gaulois);
 			}
 			
 		}
 	}
+   
+	
+	    for( set < shared_ptr < Gaulois > >:: iterator it = gaulois_qui_doivent_mourir->begin();
+		 it != gaulois_qui_doivent_mourir->end();
+		 it++
+		 )
+	      {
+		objet = *it;
+		grille->erase(objet);
+	      }
 }
 
 void Jeu_v2::faire_reproduire_population()
