@@ -27,7 +27,7 @@ Gaulois::Gaulois(): Objet("Gaulois")
 	
 	setType("Gaulois");
 	
-	
+	portee = 0 ;
 	
 	nb_deplacements = 0;
 	
@@ -49,6 +49,7 @@ Gaulois::Gaulois(char pSexe): Objet("Gaulois")
 	if(pSexe == 'F')
 	{
 		nom = "Gauloise";
+		portee = 2;
 		
 	}
 	
@@ -86,6 +87,7 @@ Objet("Gaulois",pNumero_ligne,pNumero_colonne)
 	if(pSexe == 'F')
 	{
 		nom = "Gauloise";
+		portee = 2;
 	}
 	
 	
@@ -127,6 +129,7 @@ Gaulois::Gaulois(char pSexe, Position pPosition): Objet("Gaulois",pPosition)
   if(pSexe == 'F')
     {
       nom = "Gauloise";
+      portee = 2;
     }
 
   nb_gaulois++;
@@ -152,6 +155,11 @@ Gaulois::Gaulois(char pSexe, Position pPosition): Objet("Gaulois",pPosition)
 
 }
 
+
+
+
+
+
 char Gaulois::getSexe()
 {
 	return sexe;
@@ -169,6 +177,19 @@ char Gaulois::getSexe()
 
 //Setters
 
+
+void Gaulois::setAge(int pAge)
+{
+  age = pAge;
+}
+
+void Gaulois::fecondite_qui_baisse()
+{
+  if(portee>0)
+    {
+      portee--;
+    }
+}
 
 
 
@@ -218,6 +239,11 @@ void Gaulois::vieillir()
 int Gaulois::getAge()
 {
 	return age;
+}
+
+int Gaulois::getPortee()
+{
+  return portee;
 }
 
 
@@ -482,18 +508,18 @@ void Gaulois::seReproduire(_map grille)
 	//Des que l'on a trouvé on sort des if (on fait pas de boucles car y a que 4 cas)
 	
 	//Si on ne met ps cette condition de vérifier que les femmes, les gaulois(es) vont
-	//se reproduirent 2 fois
+	//se reproduire 2 fois
 
 	shared_ptr < Gaulois > partenaire_masculin;
 	
-	if( getSexe()== femme )
+	if( getSexe()== femme && getAge() > 10 && getPortee() > 0 )
 	  {
-
+	    
 	    //Doit chercher un partenaire masculin
 	    partenaire_masculin = recherche_partenaire_masculin(grille);
 
 
-	    if(partenaire_masculin != nullptr )
+	    if(partenaire_masculin != nullptr && partenaire_masculin->getAge() > 10  )
 	      {
 		
 	    
@@ -521,7 +547,7 @@ void Gaulois::seReproduire(_map grille)
 
 		if(!trop_de_monde_autour)
 		  {
-       
+		    fecondite_qui_baisse();
 	
 		    if( dis(gen) == 1 )
 		      {

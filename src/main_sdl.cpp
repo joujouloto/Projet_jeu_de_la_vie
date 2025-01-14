@@ -61,6 +61,7 @@ void main_sdl()
 		jeu.faire_deplacer_elements();
 		
 		jeu.faire_manger_gaulois();
+		jeu.faire_reproduire_population();
 		jeu.faire_vieillir_population_gauloise();
 		
 		
@@ -164,7 +165,7 @@ void afficher_grille_SDL(SDL_Renderer *renderer, _grille grille )
 					
 				if(gaulois->getSexe()=='M')
 				{
-				  if ( gaulois->getAge() > 5 )
+				  if ( gaulois->getAge() > 10 )
 				    {
 				      SDL_RenderCopy(renderer, texture_gaulois, NULL, &single_rect);
 				    }else
@@ -178,7 +179,7 @@ void afficher_grille_SDL(SDL_Renderer *renderer, _grille grille )
 				}
 				else
 				{
-				  if( gaulois->getAge() > 5 )
+				  if( gaulois->getAge() > 10 )
 				    {
 					SDL_RenderCopy(renderer, texture_gauloise, NULL, &single_rect);
 				    }else

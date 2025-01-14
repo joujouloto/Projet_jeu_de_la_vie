@@ -92,13 +92,16 @@ void Jeu_v2::initialiser_grille()
 	shared_ptr<Animal> animal_1;
 	
 	
-	gaulois_1 = make_shared<Gaulois>(homme,7,5);
+	gaulois_1 = make_shared<Gaulois>(homme,9,9);
+	gaulois_1->setAge(10);
 	grille->insert(  gaulois_1 );
 	
-	gaulois_2 = make_shared<Gaulois>(homme,4,3);
+	gaulois_2 = make_shared<Gaulois>(homme,8,10);
+	gaulois_2->setAge(10);
 	grille->insert( gaulois_2 );
 	
 	gaulois_3 = make_shared<Gaulois>(femme,8,9);
+	gaulois_3->setAge(10);
 	grille->insert( gaulois_3);
 	
 	arbre_1 = make_shared<Arbre>(2,5);
@@ -274,9 +277,9 @@ void Jeu_v2::faire_vieillir_population_gauloise()
 			//Si l'âge du gaulois est supérieur à 10
 			//et que la variable aléatoire est égal à 3 ou moins
 			//on fait mourir le gaulois
-			//quand le gaulois a atteint l'âge de 10, il a 30% de chances de
+			//quand le gaulois a atteint l'âge de 30, il a 30% de chances de
 			//mourir
-			if(gaulois->getAge() > 10 &&  variable_qui_fait_mourir <= 3 )
+			if(gaulois->getAge() > 30 &&  variable_qui_fait_mourir <= 3 )
 			{
 				//cout << variable_qui_fait_mourir << endl;
 				//cout << gaulois->getAge() << endl;
@@ -302,6 +305,29 @@ void Jeu_v2::faire_vieillir_population_gauloise()
 
 void Jeu_v2::faire_reproduire_population()
 {
+  shared_ptr<Objet> objet;
+  shared_ptr<Gaulois> gaulois;
+
+  
+  for ( _it_grille it = grille ->begin() ; it!= grille->end() ; it++ )
+    {
+
+      objet = *it;
+
+      if( objet -> getType()=="Gaulois" )
+	{
+	  gaulois = dynamic_pointer_cast<Gaulois> (objet);
+
+
+	  gaulois->seReproduire(grille);
+
+	  cout << "Reproduction en cours " << endl;
+	  
+	}
+
+
+      
+    }
   
 }
 

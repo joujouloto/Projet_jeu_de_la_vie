@@ -382,12 +382,12 @@ bool Gaulois::estOccupe(Position position, _map grille)
 shared_ptr < Gaulois > Gaulois::recherche_partenaire_masculin( _map grille)
 {
   bool trouve_partenaire_masculin = false;
-  shared_ptr < Gaulois > partenaire_masculin;
+  shared_ptr < Gaulois > partenaire_masculin = nullptr;
   shared_ptr < Gaulois > gaulois_e;
 
   for ( set < shared_ptr<Objet> > :: iterator it = grille->begin() ; it != grille->end() && !trouve_partenaire_masculin ; it++)
     {
-      gaulois_e = dynamic_pointer_cast<Gaulois> (objet);
+      gaulois_e = dynamic_pointer_cast<Gaulois> (*it);
 
       if( getPosition().a_gauche() == gaulois_e->getPosition() )
 	{
@@ -448,13 +448,13 @@ void Gaulois::manger(_map grille)
 		{
 			animal = dynamic_pointer_cast<Animal> (objet);
 			
-			grille->erase(animal);
 			a_mange = true;
+			grille->erase(animal);
+			
 			
 			
 			nb_animaux_manges++;
-			animaux_manges.insert(pair<int,shared_ptr<Animal>> (nb_animaux_manges,animal) );
-			
+			animaux_manges.insert(pair<int,shared_ptr<Animal>> (nb_animaux_manges,animal) );			
 			
 			
 		}
@@ -490,50 +490,53 @@ void Gaulois::seReproduire(_map grille)
 	  {
 
 	    //Doit chercher un partenaire masculin
-	    partenaire_masculin = recherche_partenaire_masculin( _map grille)
+	    partenaire_masculin = recherche_partenaire_masculin(grille);
+
+
+	    if(partenaire_masculin != nullptr )
+	      {
+		
 	    
 	      	if(!estOccupe( getPosition().a_gauche(), grille ) )
-	  {
-	    position_enfant = getPosition().a_gauche();
-	  }
-	else if( !estOccupe ( getPosition().a_droite(), grille ) )
-	    {
-	      position_enfant = getPosition().a_droite();
-	    }
-	else if ( ! estOccupe ( getPosition().en_haut(), grille ))
-	    {
-	      position_enfant = getPosition().en_haut();
-	    }
-	else if ( ! estOccupe ( getPosition().en_bas(), grille))
-	    {
-	      position_enfant = getPosition().en_bas();
-	    }
-	  else
-	    {
-	      trop_de_monde_autour = true;
-	    }
+		  {
+		    position_enfant = getPosition().a_gauche();
+		  }
+		else if( !estOccupe ( getPosition().a_droite(), grille ) )
+		  {
+		    position_enfant = getPosition().a_droite();
+		  }
+		else if ( ! estOccupe ( getPosition().en_haut(), grille ))
+		  {
+		    position_enfant = getPosition().en_haut();
+		  }
+		else if ( ! estOccupe ( getPosition().en_bas(), grille))
+		  {
+		    position_enfant = getPosition().en_bas();
+		  }
+		else
+		  {
+		    trop_de_monde_autour = true;
+		  }
 
 
-	if(!trop_de_monde_autour)
-	  {
+		if(!trop_de_monde_autour)
+		  {
        
 	
-	    if( dis(gen) == 1 )
-	      {
-		enfant = make_shared<Gaulois>(homme,position_enfant);
-	      }else
-	      {
-		enfant = make_shared<Gaulois>(femme,position_enfant);
+		    if( dis(gen) == 1 )
+		      {
+			enfant = make_shared<Gaulois>(homme,position_enfant);
+		      }else
+		      {
+			enfant = make_shared<Gaulois>(femme,position_enfant);
 	    
+	    
+		      }
+
+		    grille->insert(enfant);
+
+		  }
 	    
 	      }
-
-	    grille->insert(enfant);
-
 	  }
-	    
-	 }
-	
-
-  
 }

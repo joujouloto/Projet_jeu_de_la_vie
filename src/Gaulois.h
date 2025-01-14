@@ -48,7 +48,6 @@ class Gaulois : public Objet, enable_shared_from_this<Gaulois>
 	
 	
 	
-	
 	//Getters
 	char getSexe();
 	int getAge();
@@ -56,7 +55,7 @@ class Gaulois : public Objet, enable_shared_from_this<Gaulois>
 	
 	int getIdGaulois();
 	
-	
+        int getPortee();	
 	
 	
 	//Méthodes autres
@@ -85,12 +84,17 @@ class Gaulois : public Objet, enable_shared_from_this<Gaulois>
 	
         shared_ptr < Gaulois > recherche_partenaire_masculin( _map grille);
 	void manger(_map grille);
-	
+
+        void setAge(int pAge);
+
+        void fecondite_qui_baisse();
 	
 	protected:
 	
 	int age;
 	char sexe;
+
+        int portee;
 	
 	static int nb_gaulois ;
 	int id_gaulois;
