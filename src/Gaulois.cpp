@@ -489,80 +489,10 @@ void Gaulois::manger(_map grille)
 
 
 
-void Gaulois::seReproduire(_map grille)
-{
+void Gaulois::seReproduire( shared_ptr < Gaulois > pPartenaire_masculin )
+{  
+  fecondite_qui_baisse();
 
-        random_device rd;
-	mt19937 gen(rd());
-	
-	uniform_int_distribution<> dis(1, 2);
-	shared_ptr<Gaulois> enfant;
-
-
-	Position position_enfant;
-	bool trop_de_monde_autour = false;
-
-
-	//On a besoin de cette variable booléenne pour
-	//On va checker à gauche à droite ...etc si y a un partenaire masculin
-	//Des que l'on a trouvé on sort des if (on fait pas de boucles car y a que 4 cas)
-	
-	//Si on ne met ps cette condition de vérifier que les femmes, les gaulois(es) vont
-	//se reproduire 2 fois
-
-	shared_ptr < Gaulois > partenaire_masculin;
-	
-	if( getSexe()== femme && getAge() > 10 && getPortee() > 0 )
-	  {
-	    
-	    //Doit chercher un partenaire masculin
-	    partenaire_masculin = recherche_partenaire_masculin(grille);
-
-
-	    if(partenaire_masculin != nullptr && partenaire_masculin->getAge() > 10  )
-	      {
-		
-	    
-	      	if(!estOccupe( getPosition().a_gauche(), grille ) )
-		  {
-		    position_enfant = getPosition().a_gauche();
-		  }
-		else if( !estOccupe ( getPosition().a_droite(), grille ) )
-		  {
-		    position_enfant = getPosition().a_droite();
-		  }
-		else if ( ! estOccupe ( getPosition().en_haut(), grille ))
-		  {
-		    position_enfant = getPosition().en_haut();
-		  }
-		else if ( ! estOccupe ( getPosition().en_bas(), grille))
-		  {
-		    position_enfant = getPosition().en_bas();
-		  }
-		else
-		  {
-		    trop_de_monde_autour = true;
-		  }
-
-
-		if(!trop_de_monde_autour)
-		  {
-		    fecondite_qui_baisse();
-	
-		    if( dis(gen) == 1 )
-		      {
-			enfant = make_shared<Gaulois>(homme,position_enfant);
-		      }else
-		      {
-			enfant = make_shared<Gaulois>(femme,position_enfant);
-	    
-	    
-		      }
-
-		    grille->insert(enfant);
-
-		  }
-	    
-	      }
-	  }
+  //Pas oublier d'ajouter pere et mere dans une chaine de caracteres
+      
 }

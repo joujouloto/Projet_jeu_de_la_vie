@@ -67,7 +67,7 @@ class Gaulois : public Objet, enable_shared_from_this<Gaulois>
 	
 	
 	void vieillir();
-        void seReproduire(_map grille);
+        void seReproduire(shared_ptr < Gaulois > pPartenaire_masculin);
 	
 	//Fonctions mouvements
 	void seDeplacer(int pNumero_ligne, int pNumero_colonne, _map grille);
