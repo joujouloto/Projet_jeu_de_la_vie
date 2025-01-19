@@ -113,7 +113,7 @@ void Jeu_v2::initialiser_grille()
 	arbre_3 = make_shared<Arbre>(10,7);
 	grille->insert( arbre_3);
 	
-	animal_1 = make_shared<Animal>(9,9);
+	animal_1 = make_shared<Animal>(3,3);
 	grille->insert( animal_1);
 	
 	
@@ -327,7 +327,7 @@ void Jeu_v2::faire_reproduire_population()
   //se reproduire 2 fois
 
 
-  shared_ptr < Gaulois > partenaire_masculin;
+  shared_ptr < Gaulois > partenaire_masculin = nullptr;
 
   shared_ptr <  set < shared_ptr < Gaulois > > > gaulois_crees =
     make_shared < set < shared_ptr< Gaulois > > >  ();
@@ -347,13 +347,13 @@ void Jeu_v2::faire_reproduire_population()
 	  {
 	    
 	    //Doit chercher un partenaire masculin
-	    partenaire_masculin = gaulois->recherche_partenaire_masculin(grille);
-
+	     partenaire_masculin = gaulois->recherche_partenaire_masculin(grille);
 
 	    if(partenaire_masculin != nullptr && partenaire_masculin->getAge() > 10  )
 	      {
 		
-	    
+		cout << " Partenaire masculin " << partenaire_masculin->getNom() << endl;
+		
 	      	if(!gaulois->estOccupe( gaulois->getPosition().a_gauche(), grille ) )
 		  {
 		    position_enfant = gaulois->getPosition().a_gauche();
@@ -396,18 +396,15 @@ void Jeu_v2::faire_reproduire_population()
 		    gaulois_crees->insert(enfant);
 		    cout << "Reproduction en cours " << endl;
 
-		  }
-	    
+	    	  }
 	      }
 	  
 	  
-	}
+	    }
 
 	}
-      
     }
-
-
+  
   shared_ptr < Objet > gaulois_enfant_ne;
   for (  set < shared_ptr < Gaulois > >::iterator it = gaulois_crees->begin();
 	 it != gaulois_crees->end();
@@ -418,16 +415,5 @@ void Jeu_v2::faire_reproduire_population()
       grille->insert(gaulois_enfant_ne);
       
     }
-  
+ 
 }
-
-
-
-
-
-
-
-
-
-
-

@@ -413,40 +413,45 @@ shared_ptr < Gaulois > Gaulois::recherche_partenaire_masculin( _map grille)
 
   for ( set < shared_ptr<Objet> > :: iterator it = grille->begin() ; it != grille->end() && !trouve_partenaire_masculin ; it++)
     {
-      gaulois_e = dynamic_pointer_cast<Gaulois> (*it);
 
-      if( getPosition().a_gauche() == gaulois_e->getPosition() )
+      if( (*it)->getType() == "Gaulois")
 	{
-	  if( gaulois_e->getSexe() == homme )
-	 {
-	   partenaire_masculin = gaulois_e;
+	  
+	  gaulois_e = dynamic_pointer_cast<Gaulois> (*it);
 
-	   trouve_partenaire_masculin = true ;
+	  if( getPosition().a_gauche() == gaulois_e->getPosition() )
+	    {
+	      if( gaulois_e->getSexe() == homme )
+		{
+		  partenaire_masculin = gaulois_e;
+
+		  trouve_partenaire_masculin = true ;
 	   
 	  
-	 }
-	}else if ( getPosition().a_droite() == gaulois_e->getPosition() )
-	{
-	  if( gaulois_e->getSexe() == homme )
-	   {
-	     partenaire_masculin = gaulois_e;
-             trouve_partenaire_masculin = true ;
-	   }
-	}else if ( getPosition().en_haut() == gaulois_e->getPosition() )
-	{
-	  if( gaulois_e->getSexe() == homme )
-	   {
-	     partenaire_masculin = gaulois_e;
-             trouve_partenaire_masculin = true ;
-	   }
-	}else if ( getPosition().en_bas() == gaulois_e->getPosition() )
-	{
-	  if( gaulois_e->getSexe() == homme )
-	   {
-	     partenaire_masculin = gaulois_e;
-	     trouve_partenaire_masculin = true ;
-	   }
-	}
+		}
+	    }else if ( getPosition().a_droite() == gaulois_e->getPosition() )
+	    {
+	      if( gaulois_e->getSexe() == homme )
+		{
+		  partenaire_masculin = gaulois_e;
+		  trouve_partenaire_masculin = true ;
+		}
+	    }else if ( getPosition().en_haut() == gaulois_e->getPosition() )
+	    {
+	      if( gaulois_e->getSexe() == homme )
+		{
+		  partenaire_masculin = gaulois_e;
+		  trouve_partenaire_masculin = true ;
+		}
+	    }else if ( getPosition().en_bas() == gaulois_e->getPosition() )
+	    {
+	      if( gaulois_e->getSexe() == homme )
+		{
+		  partenaire_masculin = gaulois_e;
+		  trouve_partenaire_masculin = true ;
+		}
+	    }
+        }
     }
 
   return partenaire_masculin;

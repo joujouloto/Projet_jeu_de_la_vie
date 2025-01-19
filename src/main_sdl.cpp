@@ -50,18 +50,25 @@ void main_sdl()
 	
 	bool isRunning = true;
 	
-	
+	int tour = 0;
 	
 	while(isRunning)
 	{
-		
-		this_thread::sleep_for(chrono::milliseconds(800));
+	  tour++;
+	  this_thread::sleep_for(chrono::milliseconds(800));
+	  //SDL_Delay(800);
 		//------------------------------------------------
 		
 		jeu.faire_deplacer_elements();
 		
 		jeu.faire_manger_gaulois();
-		jeu.faire_reproduire_population();
+
+		if( tour % 3 == 0 )
+		  {
+		    
+		    jeu.faire_reproduire_population();
+		    }
+		
 		jeu.faire_vieillir_population_gauloise();
 		
 		
@@ -161,15 +168,18 @@ void afficher_grille_SDL(SDL_Renderer *renderer, _grille grille )
 				gaulois = dynamic_pointer_cast<Gaulois> (*it);
 					
 					
-				cout << gaulois->getPosition().toString() << endl;
+				
 					
 				if(gaulois->getSexe()=='M')
 				{
+				  
 				  if ( gaulois->getAge() > 10 )
 				    {
+				      cout << " Gaulois adulte homme " << gaulois->getPosition().toString() << endl;
 				      SDL_RenderCopy(renderer, texture_gaulois, NULL, &single_rect);
 				    }else
 				    {
+				      cout << " Gaulois garçon " << gaulois->getPosition().toString() << endl;
 				      SDL_RenderCopy(renderer, texture_gaulois_garcon, NULL, &single_rect);
 				    }
 				  
@@ -181,16 +191,18 @@ void afficher_grille_SDL(SDL_Renderer *renderer, _grille grille )
 				{
 				  if( gaulois->getAge() > 10 )
 				    {
+				      cout << " Gauloise adulte femme " << gaulois->getPosition().toString() << endl;
 					SDL_RenderCopy(renderer, texture_gauloise, NULL, &single_rect);
 				    }else
 				    {
+				      cout << " Gauloise fille " << gaulois->getPosition().toString() << endl;
 				      SDL_RenderCopy(renderer, texture_gaulois_fille, NULL, &single_rect);
 				    }
 				}
 		
 		}else if((*it)->getType()=="Animal")
 		{
-			cout << (*it)->getPosition().toString() << endl;
+		  cout << "Animal " << (*it)->getPosition().toString() << endl;
 			
 			SDL_RenderCopy(renderer, texture_animal, NULL, &single_rect);
 		}

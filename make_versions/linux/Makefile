@@ -8,7 +8,7 @@ CC := g++
 SDL_CFLAGS := $(shell sdl2-config --cflags)
 SDL_LDFLAGS := $(shell sdl2-config --libs)
 
-CFLAGS := -g -Wall -Wextra
+CFLAGS := -g -Wextra
 
 # add header files here
 HDRS := ../.././src/*.h
