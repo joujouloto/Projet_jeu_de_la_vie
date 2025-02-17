@@ -83,7 +83,14 @@ void Jeu_v2::initialiser_grille()
 	
 	shared_ptr<Gaulois> gaulois_1,
 	gaulois_2,
-	gaulois_3;
+	gaulois_3,
+	
+	gaulois_4,
+	gaulois_5,
+	gaulois_6;
+	
+	
+	
 	
 	shared_ptr<Arbre> arbre_1,
 	arbre_2,
@@ -103,6 +110,15 @@ void Jeu_v2::initialiser_grille()
 	gaulois_3 = make_shared<Gaulois>(femme,8,9);
 	gaulois_3->setAge(10);
 	grille->insert( gaulois_3);
+	
+	gaulois_4 = make_shared<Gaulois>(femme,2,3);
+	grille->insert( gaulois_4);
+	
+	gaulois_5 = make_shared<Gaulois>(femme,4,7);
+	grille->insert( gaulois_5);
+	
+	gaulois_6 = make_shared<Gaulois>(homme,4,2);
+	grille->insert( gaulois_6);
 	
 	arbre_1 = make_shared<Arbre>(2,5);
 	grille->insert( arbre_1 );
