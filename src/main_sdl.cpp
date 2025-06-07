@@ -120,7 +120,7 @@ void main_sdl()
 	SDL_RenderCopy( renderer, text_texture, NULL, &dest );
 	
 	
-	//aassaasas
+	//aassaasasqq
 	
 	
 	
