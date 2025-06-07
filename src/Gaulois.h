@@ -41,35 +41,47 @@ class Gaulois : public Objet, enable_shared_from_this<Gaulois>
 	//Contructeurs
 	Gaulois();
 	Gaulois(char pSexe);
+	
 	Gaulois(char pSexe, int pNumero_ligne, int pNumero_colonne);
-        Gaulois(char pSexe, Position pPosition);
+	
+    Gaulois(char pSexe, Position pPosition);
 	
 	
 	
 	
 	
-	//Getters
+	//>-----------------------------------------------Getters
 	char getSexe();
 	int getAge();
 	int get_nb_gaulois_crees();
 	
 	int getIdGaulois();
 	
-        int getPortee();	
+    int getPortee();	
+	
+	//>---------------------Parents
+	string getPere();
+	string getMere();
+	string getEnfants();
+	//<----------------------Parents
 	
 	
 	//Méthodes autres
 	string toString();
 	string getDeplacements();
 	
-	string getAnimauxManges();
-	int getNbAnimauxManges();
+	//<-----------------------------------------------Getters
 	
 	
+	
+	
+	//>------------------------------------Age
+	void setAge(int pAge);
 	void vieillir();
-        void seReproduire(shared_ptr < Gaulois > pPartenaire_masculin);
+	//<------------------------------------Age
+        
 	
-	//Fonctions mouvements
+	//>------------------------------Fonctions mouvements
 	void seDeplacer(int pNumero_ligne, int pNumero_colonne, _map grille);
 	void seDeplacer(Position nouvelle_position, _map grille);
 	 
@@ -82,19 +94,51 @@ class Gaulois : public Objet, enable_shared_from_this<Gaulois>
 	
 	bool estOccupe(Position position, _map grille); 
 	
-        shared_ptr < Gaulois > recherche_partenaire_masculin( _map grille);
+        
+		
+	//<------------------------------Fonctions mouvements
+	
+	
+	//>------------------------------Fonctions reproduction
+	shared_ptr < Gaulois > recherche_partenaire_masculin( _map grille);
+	
+	void seReproduire(shared_ptr < Gaulois > pPartenaire_masculin);
+	
+	void fecondite_qui_baisse();
+	
+	
+	void ajouter_pere(string nom_gaulois);
+	void ajouter_mere(string nom_gauloise);
+	void ajouter_enfant(string nom_enfant);
+	
+	//<------------------------------Fonctions reproduction
+	
+	
+	//>------------------------------Fonctions manger
+	
+	string getAnimauxManges();
+	
+	int getNbAnimauxManges();
+	
 	void manger(_map grille);
 
-        void setAge(int pAge);
+    //>------------------------------Fonction manger
 
-        void fecondite_qui_baisse();
+    
+	
+	
+	
+	//>-----------------------------------------Attributs
 	
 	protected:
 	
 	int age;
 	char sexe;
-
-        int portee;
+	int portee;
+	
+	string pere;
+	string mere;
+	string enfants;
 	
 	static int nb_gaulois ;
 	int id_gaulois;
@@ -105,6 +149,8 @@ class Gaulois : public Objet, enable_shared_from_this<Gaulois>
 	int nb_animaux_manges;
 	map< int, shared_ptr<Animal> > animaux_manges;
 	
+	
+	//<-----------------------------------------Attributs
 	
 	
 	

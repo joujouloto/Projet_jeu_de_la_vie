@@ -47,6 +47,12 @@
 #include "Animal.h"
 
 
+/*
+	Constantes
+*/
+
+#define AGE_ADULTE_GAULOIS 10
+
 
 //-----------------------------------------------------------------------------------------------
 
@@ -83,7 +89,14 @@ void Jeu_v2::initialiser_grille()
 	
 	shared_ptr<Gaulois> gaulois_1,
 	gaulois_2,
-	gaulois_3;
+	gaulois_3,
+	
+	gaulois_4,
+	gaulois_5,
+	gaulois_6;
+	
+	
+	
 	
 	shared_ptr<Arbre> arbre_1,
 	arbre_2,
@@ -93,16 +106,28 @@ void Jeu_v2::initialiser_grille()
 	
 	
 	gaulois_1 = make_shared<Gaulois>(homme,9,9);
-	gaulois_1->setAge(10);
+	gaulois_1->setAge(AGE_ADULTE_GAULOIS);
 	grille->insert(  gaulois_1 );
 	
+	
+	
+	
 	gaulois_2 = make_shared<Gaulois>(homme,8,10);
-	gaulois_2->setAge(10);
+	gaulois_2->setAge(AGE_ADULTE_GAULOIS);
 	grille->insert( gaulois_2 );
 	
 	gaulois_3 = make_shared<Gaulois>(femme,8,9);
-	gaulois_3->setAge(10);
+	gaulois_3->setAge(AGE_ADULTE_GAULOIS);
 	grille->insert( gaulois_3);
+	
+	gaulois_4 = make_shared<Gaulois>(femme,2,3);
+	grille->insert( gaulois_4);
+	
+	gaulois_5 = make_shared<Gaulois>(femme,4,7);
+	grille->insert( gaulois_5);
+	
+	gaulois_6 = make_shared<Gaulois>(homme,4,2);
+	grille->insert( gaulois_6);
 	
 	arbre_1 = make_shared<Arbre>(2,5);
 	grille->insert( arbre_1 );
@@ -329,8 +354,7 @@ void Jeu_v2::faire_reproduire_population()
 
   shared_ptr < Gaulois > partenaire_masculin = nullptr;
 
-  shared_ptr <  set < shared_ptr < Gaulois > > > gaulois_crees =
-    make_shared < set < shared_ptr< Gaulois > > >  ();
+  shared_ptr <  set < shared_ptr < Gaulois > > > gaulois_crees = make_shared < set < shared_ptr< Gaulois > > >  ();
   
   for ( _it_grille it = grille ->begin() ; it!= grille->end() ; it++ )
     {
@@ -338,71 +362,76 @@ void Jeu_v2::faire_reproduire_population()
       objet = *it;
 
       if( objet -> getType()=="Gaulois" )
-	{
-	  gaulois = dynamic_pointer_cast<Gaulois> (objet);
+		{
+		  gaulois = dynamic_pointer_cast<Gaulois> (objet);
 
-	
-	if( gaulois->getSexe()== femme && gaulois->getAge() > 10 &&
-	    gaulois->getPortee() > 0 )
-	  {
-	    
-	    //Doit chercher un partenaire masculin
-	     partenaire_masculin = gaulois->recherche_partenaire_masculin(grille);
-
-	    if(partenaire_masculin != nullptr && partenaire_masculin->getAge() > 10  )
-	      {
 		
-		cout << " Partenaire masculin " << partenaire_masculin->getNom() << endl;
-		
-	      	if(!gaulois->estOccupe( gaulois->getPosition().a_gauche(), grille ) )
-		  {
-		    position_enfant = gaulois->getPosition().a_gauche();
-		  }
-		else if(
-		       !gaulois->estOccupe ( gaulois->getPosition().a_droite(), grille ) )
-		  {
-		    position_enfant = gaulois->getPosition().a_droite();
-		  }
-		else if (
-		  ! gaulois->estOccupe ( gaulois->getPosition().en_haut(), grille ))
-		  {
-		    position_enfant = gaulois->getPosition().en_haut();
-		  }
-		else if ( ! gaulois->estOccupe ( gaulois->getPosition().en_bas(), grille))
-		  {
-		    position_enfant = gaulois->getPosition().en_bas();
-		  }
-		else
-		  {
-		    trop_de_monde_autour = true;
-		  }
+			if( gaulois->getSexe()== femme && gaulois->getAge() > 10 &&
+				gaulois->getPortee() > 0 )
+			  {
+				
+					//Doit chercher un partenaire masculin
+					 partenaire_masculin = gaulois->recherche_partenaire_masculin(grille);
+
+					if(partenaire_masculin != nullptr && partenaire_masculin->getAge() > 10  )
+					{
+					
+						cout << " Partenaire masculin " << partenaire_masculin->getNom() << endl;
+						
+							if(!gaulois->estOccupe( gaulois->getPosition().a_gauche(), grille ) )
+						  {
+							position_enfant = gaulois->getPosition().a_gauche();
+						  }
+						else if(
+							   !gaulois->estOccupe ( gaulois->getPosition().a_droite(), grille ) )
+						  {
+							position_enfant = gaulois->getPosition().a_droite();
+						  }
+						else if (
+						  ! gaulois->estOccupe ( gaulois->getPosition().en_haut(), grille ))
+						  {
+							position_enfant = gaulois->getPosition().en_haut();
+						  }
+						else if ( ! gaulois->estOccupe ( gaulois->getPosition().en_bas(), grille))
+						  {
+							position_enfant = gaulois->getPosition().en_bas();
+						  }
+						else
+						  {
+							trop_de_monde_autour = true;
+						  }
 
 
-		if(!trop_de_monde_autour)
-		  {	
-		    if( dis(gen) == 1 )
-		      {
-			enfant = make_shared<Gaulois>(homme,position_enfant);
-		      }else
-		      {
-			enfant = make_shared<Gaulois>(femme,position_enfant);
-	    
-	    
-		      }
+						if(!trop_de_monde_autour)
+						{	
+							if( dis(gen) == 1 )
+							{
+									enfant = make_shared<Gaulois>(homme,position_enfant);
+							}else
+							{
+									enfant = make_shared<Gaulois>(femme,position_enfant);
+							}
 
-		    //grille->insert(enfant);
-		    gaulois->seReproduire(partenaire_masculin);
-		    
-		    gaulois_crees->insert(enfant);
-		    cout << "Reproduction en cours " << endl;
+							//grille->insert(enfant);
+							gaulois->seReproduire(partenaire_masculin);
+							
+							gaulois->ajouter_enfant(enfant->getNom());
+							
+							enfant->ajouter_pere(partenaire_masculin->getNom());
+							enfant->ajouter_mere(gaulois->getNom());
+							
+							partenaire_masculin->ajouter_enfant(enfant->getNom());
+							
+							gaulois_crees->insert(enfant);
+							cout << "Reproduction en cours " << endl;
 
-	    	  }
-	      }
-	  
-	  
-	    }
+						}
+					}
+			  
+			  
+				}
 
-	}
+			}
     }
   
   shared_ptr < Objet > gaulois_enfant_ne;

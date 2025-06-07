@@ -12,12 +12,18 @@ enum sexe_gaulois { homme = 'M' , femme = 'F'};
 
 int Gaulois::nb_gaulois = 0;
 
+
+
+
 //Constructeurs
 Gaulois::Gaulois(): Objet("Gaulois")
 {
 	age = 1;
 	sexe = 'M';
 	nb_animaux_manges = 0;
+	pere = "";
+	mere = "";
+	enfants = "";
 	
 	nb_gaulois++;
 	
@@ -45,6 +51,9 @@ Gaulois::Gaulois(char pSexe): Objet("Gaulois")
 	
 	age = 1;
 	sexe = pSexe;
+	pere = "";
+	mere = "";
+	enfants = "";
 	
 	if(pSexe == 'F')
 	{
@@ -80,6 +89,9 @@ Objet("Gaulois",pNumero_ligne,pNumero_colonne)
 {
 	age = 1 ;
 	sexe = pSexe;
+	pere = "";
+	mere = "";
+	enfants = "";
 	
 	nb_animaux_manges = 0;
 	
@@ -121,20 +133,23 @@ Objet("Gaulois",pNumero_ligne,pNumero_colonne)
 Gaulois::Gaulois(char pSexe, Position pPosition): Objet("Gaulois",pPosition)
 {
 
-  age = 1 ;
-  sexe = pSexe;
+	age = 1 ;
+	sexe = pSexe;
+	pere = "";
+	mere = "";
+	enfants = "";
 
-  nb_animaux_manges = 0;
+	nb_animaux_manges = 0;
 
-  if(pSexe == 'F')
-    {
-      nom = "Gauloise";
-      portee = 2;
-    }
+	if(pSexe == 'F')
+	{
+		 nom = "Gauloise";
+		 portee = 2;
+	}
 
-  nb_gaulois++;
+	nb_gaulois++;
 
-  id_gaulois = nb_gaulois;
+	id_gaulois = nb_gaulois;
 
   	setNom(nom+" "+to_string(nb_gaulois));
 	
@@ -152,6 +167,7 @@ Gaulois::Gaulois(char pSexe, Position pPosition): Objet("Gaulois",pPosition)
 	numero_deplacement = nb_deplacements ;
 	
 	coordonnees_par_ou_passait_gaulois.insert(pair<int,Position> ( numero_deplacement,pPosition) );
+	
 
 }
 
@@ -414,44 +430,45 @@ shared_ptr < Gaulois > Gaulois::recherche_partenaire_masculin( _map grille)
   for ( set < shared_ptr<Objet> > :: iterator it = grille->begin() ; it != grille->end() && !trouve_partenaire_masculin ; it++)
     {
 
-      if( (*it)->getType() == "Gaulois")
-	{
-	  
-	  gaulois_e = dynamic_pointer_cast<Gaulois> (*it);
+		  if( (*it)->getType() == "Gaulois")
+		{
+		  
+		  gaulois_e = dynamic_pointer_cast<Gaulois> (*it);
+		  
+		  
+		  if( getPosition().a_gauche() == gaulois_e->getPosition() )
+			{
+			  if( gaulois_e->getSexe() == homme )
+				{
+				  partenaire_masculin = gaulois_e;
 
-	  if( getPosition().a_gauche() == gaulois_e->getPosition() )
-	    {
-	      if( gaulois_e->getSexe() == homme )
-		{
-		  partenaire_masculin = gaulois_e;
-
-		  trouve_partenaire_masculin = true ;
-	   
-	  
+				  trouve_partenaire_masculin = true ;
+			   
+			  
+				}
+				}else if ( getPosition().a_droite() == gaulois_e->getPosition() )
+				{
+				  if( gaulois_e->getSexe() == homme )
+				{
+				  partenaire_masculin = gaulois_e;
+				  trouve_partenaire_masculin = true ;
+				}
+				}else if ( getPosition().en_haut() == gaulois_e->getPosition() )
+				{
+					if( gaulois_e->getSexe() == homme )
+					{
+					  partenaire_masculin = gaulois_e;
+					  trouve_partenaire_masculin = true ;
+					}
+				}else if ( getPosition().en_bas() == gaulois_e->getPosition() )
+				{
+					if( gaulois_e->getSexe() == homme )
+					{
+					  partenaire_masculin = gaulois_e;
+					  trouve_partenaire_masculin = true ;
+					}
+				}
 		}
-	    }else if ( getPosition().a_droite() == gaulois_e->getPosition() )
-	    {
-	      if( gaulois_e->getSexe() == homme )
-		{
-		  partenaire_masculin = gaulois_e;
-		  trouve_partenaire_masculin = true ;
-		}
-	    }else if ( getPosition().en_haut() == gaulois_e->getPosition() )
-	    {
-	      if( gaulois_e->getSexe() == homme )
-		{
-		  partenaire_masculin = gaulois_e;
-		  trouve_partenaire_masculin = true ;
-		}
-	    }else if ( getPosition().en_bas() == gaulois_e->getPosition() )
-	    {
-	      if( gaulois_e->getSexe() == homme )
-		{
-		  partenaire_masculin = gaulois_e;
-		  trouve_partenaire_masculin = true ;
-		}
-	    }
-        }
     }
 
   return partenaire_masculin;
@@ -501,3 +518,43 @@ void Gaulois::seReproduire( shared_ptr < Gaulois > pPartenaire_masculin )
   //Pas oublier d'ajouter pere et mere dans une chaine de caracteres
       
 }
+
+
+void Gaulois::ajouter_pere(string nom_gaulois)
+{
+	pere = nom_gaulois;
+}
+
+void Gaulois::ajouter_mere(string nom_gauloise)
+{
+	mere = nom_gauloise;
+}
+
+void Gaulois::ajouter_enfant(string nom_enfant)
+{
+	enfants += " "+nom_enfant;
+}
+	
+	
+//>---------------------Parents
+string Gaulois::getPere()
+{
+	return pere;
+}
+
+string Gaulois::getMere()
+{
+	return mere;
+}
+
+
+string Gaulois::getEnfants()
+{
+	return enfants;
+}
+
+
+
+
+
+//<----------------------Parents
