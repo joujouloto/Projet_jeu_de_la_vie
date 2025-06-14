@@ -54,10 +54,12 @@ SDL_Surface * text = NULL;
 
 SDL_Texture * text_texture = NULL ;
 
+SDL_Window *win = NULL;
+
 
 void main_sdl()
 {
-    SDL_Window *win;
+    
     SDL_Renderer *renderer;
 	
 
@@ -86,38 +88,9 @@ void main_sdl()
         return;
     }
 	
-	if ( TTF_Init() < 0 ) 
-	{
-		cout << "Error initializing SDL_ttf: " << TTF_GetError() << endl;
-		SDL_DestroyWindow(win);
-        SDL_Quit();
-        return;
-	}
-	
-	font = TTF_OpenFont("./COMICATE.TTF", 24);
-	if ( !font ) {
-		cout << "Failed to load font: " << TTF_GetError() << endl;
-		SDL_DestroyWindow(win);
-        SDL_Quit();
-        return;
-	}
-	
-	
-	// On met blanc comme couleur
-	SDL_Color color = { 255, 255, 255 };
-
-	text = TTF_RenderText_Solid( font, "Hello World!", color );
-	if ( !text ) {
-		cout << "Failed to render text: " << TTF_GetError() << endl;
-	}
-	
 	
 
-	text_texture = SDL_CreateTextureFromSurface( renderer, text );
-
-	SDL_Rect dest = { 1000, 100, text->w, text->h };
-
-	SDL_RenderCopy( renderer, text_texture, NULL, &dest );
+	
 	
 	
 	//aassaasasqq
@@ -136,6 +109,7 @@ void main_sdl()
 	
 	while(isRunning)
 	{
+		
 	  tour++;
 	  this_thread::sleep_for(chrono::milliseconds(800));
 	  //SDL_Delay(800);
@@ -189,6 +163,8 @@ void afficher_grille_SDL(SDL_Renderer *renderer, _grille grille )
 	single_rect.w = 50;
 	single_rect.h = 50;
 	
+	
+	
 	//169*221
 	
 	//Textures
@@ -210,17 +186,80 @@ void afficher_grille_SDL(SDL_Renderer *renderer, _grille grille )
 	int pos_y = 40;
 	int espace = 20 ;
 	
+	if ( TTF_Init() < 0 ) 
+	{
+		cout << "Error initializing SDL_ttf: " << TTF_GetError() << endl;
+		SDL_DestroyWindow(win);
+        SDL_Quit();
+        return;
+	}
+	
+	font = TTF_OpenFont("./COMICATE.TTF", 5);
+	if ( !font ) {
+		cout << "Failed to load font: " << TTF_GetError() << endl;
+		SDL_DestroyWindow(win);
+        SDL_Quit();
+        return;
+	}
+	
+	
+	// On met blanc comme couleur
+	SDL_Color color = { 255, 0, 0 };
+
+	
+	
+	stringstream ss;
+
+	text_texture = SDL_CreateTextureFromSurface( renderer, text );
+
+	SDL_Rect rectangle_ecriture_coordonnees = {};
+	
+	string chaine_coordonnees = "";
+	const char* char_constant_coordonnees = NULL;
+	
 	
 	 for( set < shared_ptr<Objet> > ::iterator it = grille->begin(); it !=grille->end() ; it++ )
 	 {
+		 
+		
+		if ( !text ) {
+			cout << "Failed to render text: " << TTF_GetError() << endl;
+			}
+		 
+		ss.str("");
+		 
+		 
+		 ss << (*it)->getPosition().getAbscisse() ;
+		 ss << "," ;
+		 ss << (*it)->getPosition().getOrdonnee() ;
+		 
+		 
 		 single_rect.x =  (pos_x + espace) * (*it)->getPosition().getAbscisse() ;
 		 single_rect.y = (pos_y + espace) * (*it)->getPosition().getOrdonnee();
 		 
 		 
+		 chaine_coordonnees = ss.str();
+		 char_constant_coordonnees = chaine_coordonnees.c_str();
+		 
+		 cout << chaine_coordonnees << endl;
+		 
+		 
+		 
+		 text = TTF_RenderText_Solid( font, char_constant_coordonnees, color );
+		 
+		 rectangle_ecriture_coordonnees.x = single_rect.x + 30;
+		rectangle_ecriture_coordonnees.y = single_rect.y + 30;
+		
+		rectangle_ecriture_coordonnees.w = text->w;
+		rectangle_ecriture_coordonnees.h = text->h;
+		
+		
+		
 		 
 		if((*it)->getType()=="Arbre")
 		{
 					SDL_RenderCopy(renderer, texture_arbre, NULL, &single_rect);
+					SDL_RenderCopy( renderer, text_texture, NULL, &rectangle_ecriture_coordonnees );
 		}
 		else if((*it)->getType()=="Gaulois")	
 			{
@@ -260,13 +299,18 @@ void afficher_grille_SDL(SDL_Renderer *renderer, _grille grille )
 				      SDL_RenderCopy(renderer, texture_gaulois_fille, NULL, &single_rect);
 				    }
 				}
+				SDL_RenderCopy( renderer, text_texture, NULL, &rectangle_ecriture_coordonnees );
 		
 		}else if((*it)->getType()=="Animal")
 		{
 		  cout << "Animal " << (*it)->getPosition().toString() << endl;
 			
 			SDL_RenderCopy(renderer, texture_animal, NULL, &single_rect);
+			SDL_RenderCopy( renderer, text_texture, NULL, &rectangle_ecriture_coordonnees );
 		}
+		
+		
+		
 		 
 	 }
 
