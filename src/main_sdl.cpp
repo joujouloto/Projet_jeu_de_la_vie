@@ -129,7 +129,7 @@ void main_sdl()
 		
 		
 		//------------------------------------------------
-		afficher_grille_SDL(renderer,jeu.getGrille());
+		afficher_grille_SDL(renderer,jeu);
 		SDL_RenderClear(renderer);
 		
 		
@@ -149,7 +149,7 @@ void main_sdl()
 	
 }
 
-void afficher_grille_SDL(SDL_Renderer *renderer, _grille grille )
+void afficher_grille_SDL(SDL_Renderer *renderer, Jeu_v2 pJeu )
 {
 	shared_ptr<Gaulois> gaulois;
 	Position position ;
@@ -194,7 +194,7 @@ void afficher_grille_SDL(SDL_Renderer *renderer, _grille grille )
         return;
 	}
 	
-	font = TTF_OpenFont("./COMICATE.TTF", 5);
+	font = TTF_OpenFont("../../police/arial/ARIAL.ttf", 20);
 	if ( !font ) {
 		cout << "Failed to load font: " << TTF_GetError() << endl;
 		SDL_DestroyWindow(win);
@@ -208,58 +208,21 @@ void afficher_grille_SDL(SDL_Renderer *renderer, _grille grille )
 
 	
 	
-	stringstream ss;
-
-	text_texture = SDL_CreateTextureFromSurface( renderer, text );
-
-	SDL_Rect rectangle_ecriture_coordonnees = {};
-	
-	string chaine_coordonnees = "";
-	const char* char_constant_coordonnees = NULL;
 	
 	
-	 for( set < shared_ptr<Objet> > ::iterator it = grille->begin(); it !=grille->end() ; it++ )
+	
+	 for( set < shared_ptr<Objet> > ::iterator it = pJeu.getGrille()->begin(); it !=pJeu.getGrille()->end() ; it++ )
 	 {
 		 
-		
-		if ( !text ) {
-			cout << "Failed to render text: " << TTF_GetError() << endl;
-			}
-		 
-		ss.str("");
+		single_rect.x =  (pos_x + espace) * (*it)->getPosition().getAbscisse() ;
+		single_rect.y = (pos_y + espace) * (*it)->getPosition().getOrdonnee();
 		 
 		 
-		 ss << (*it)->getPosition().getAbscisse() ;
-		 ss << "," ;
-		 ss << (*it)->getPosition().getOrdonnee() ;
-		 
-		 
-		 single_rect.x =  (pos_x + espace) * (*it)->getPosition().getAbscisse() ;
-		 single_rect.y = (pos_y + espace) * (*it)->getPosition().getOrdonnee();
-		 
-		 
-		 chaine_coordonnees = ss.str();
-		 char_constant_coordonnees = chaine_coordonnees.c_str();
-		 
-		 cout << chaine_coordonnees << endl;
-		 
-		 
-		 
-		 text = TTF_RenderText_Solid( font, char_constant_coordonnees, color );
-		 
-		 rectangle_ecriture_coordonnees.x = single_rect.x + 30;
-		rectangle_ecriture_coordonnees.y = single_rect.y + 30;
-		
-		rectangle_ecriture_coordonnees.w = text->w;
-		rectangle_ecriture_coordonnees.h = text->h;
-		
-		
-		
 		 
 		if((*it)->getType()=="Arbre")
 		{
 					SDL_RenderCopy(renderer, texture_arbre, NULL, &single_rect);
-					SDL_RenderCopy( renderer, text_texture, NULL, &rectangle_ecriture_coordonnees );
+					
 		}
 		else if((*it)->getType()=="Gaulois")	
 			{
@@ -282,9 +245,6 @@ void afficher_grille_SDL(SDL_Renderer *renderer, _grille grille )
 				      cout << " Gaulois garcon " << gaulois->getPosition().toString() << endl;
 				      SDL_RenderCopy(renderer, texture_gaulois_garcon, NULL, &single_rect);
 				    }
-				  
-
-
 					
 				}
 				else
@@ -299,24 +259,75 @@ void afficher_grille_SDL(SDL_Renderer *renderer, _grille grille )
 				      SDL_RenderCopy(renderer, texture_gaulois_fille, NULL, &single_rect);
 				    }
 				}
-				SDL_RenderCopy( renderer, text_texture, NULL, &rectangle_ecriture_coordonnees );
 		
 		}else if((*it)->getType()=="Animal")
 		{
 		  cout << "Animal " << (*it)->getPosition().toString() << endl;
 			
 			SDL_RenderCopy(renderer, texture_animal, NULL, &single_rect);
-			SDL_RenderCopy( renderer, text_texture, NULL, &rectangle_ecriture_coordonnees );
+			
 		}
 		
 		
 		
 		 
 	 }
+	 
+	 stringstream ss;
 
+	
+
+	SDL_Rect rectangle_ecriture_coordonnees = {};
+	
+	string chaine_coordonnees = "";
+	const char* char_constant_coordonnees = NULL;
+	 
+	 
+	 for(int i=1; i <= pJeu.get_nb_lignes() ; i++)
+	 {
+		 for(int j = 1 ; j <= pJeu.get_nb_colonnes() ; j++ )
+		 {
+			 ss.str("");
+			 char_constant_coordonnees = NULL;
+		 
+		 
+			 ss << i ;
+			 ss << "," ;
+			 ss << j ;
+			 
+			 
+			 single_rect.x =  (pos_x + espace) * i ;
+			 single_rect.y = (pos_y + espace) * j;
+			 
+			 
+			 chaine_coordonnees = ss.str();
+			 char_constant_coordonnees = chaine_coordonnees.c_str();
+			 
+			 cout << char_constant_coordonnees << endl;
+			 
+			 
+			 
+			 text = TTF_RenderText_Solid( font, char_constant_coordonnees, color );
+			 text_texture = SDL_CreateTextureFromSurface( renderer, text );
+			 
+			 if ( !text ) {
+				cout << "Failed to render text: " << TTF_GetError() << endl;
+			}
+			 
+			 rectangle_ecriture_coordonnees.x = single_rect.x + 0;
+			rectangle_ecriture_coordonnees.y = single_rect.y + 0;
+			
+			rectangle_ecriture_coordonnees.w = text->w;
+			rectangle_ecriture_coordonnees.h = text->h;
+			
+			SDL_RenderCopy( renderer, text_texture, NULL, &rectangle_ecriture_coordonnees );
+		 }
+	 }
+	 
 	 SDL_RenderPresent(renderer);
 	
-	
+	TTF_CloseFont(font);
+	font=NULL;
 	
 }
 

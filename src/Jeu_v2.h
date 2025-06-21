@@ -46,7 +46,12 @@ class Jeu_v2
 	
 	void faire_vieillir_population_gauloise();
 
-        void faire_reproduire_population();
+    void faire_reproduire_population();
+	
+	
+	int get_nb_lignes();
+	
+	int get_nb_colonnes();
 
 	//toString
 	string afficher_dans_chaine_contenu_grille();

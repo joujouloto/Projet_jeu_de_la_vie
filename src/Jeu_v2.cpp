@@ -81,6 +81,16 @@ _grille Jeu_v2::getGrille()
 		return grille;
 }
 
+int Jeu_v2::get_nb_lignes()
+{
+	return nb_lignes;
+}
+
+int Jeu_v2::get_nb_colonnes()
+{
+	return nb_colonnes;
+}
+
 
 void Jeu_v2::initialiser_grille()
 {
