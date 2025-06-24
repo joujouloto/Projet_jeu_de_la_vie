@@ -56,16 +56,20 @@ SDL_Texture * text_texture = NULL ;
 
 SDL_Window *win = NULL;
 
+SDL_Window *win_test_2 = NULL;
+
 
 void main_sdl()
 {
     
-    SDL_Renderer *renderer;
+    SDL_Renderer *renderer = NULL,
+	*renderer_win_test_2 = NULL;
 	
 
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
     {
         cout <<  "SDL_Init Error: %s\n" <<  SDL_GetError() << endl;
+        SDL_Quit();
         return;
     }
 
@@ -74,6 +78,8 @@ void main_sdl()
     {
        
 		cout <<  "SDL_CreateWindow Error: %s\n" <<  SDL_GetError() << endl;
+		SDL_DestroyWindow(win);
+        SDL_Quit();
         return;
     }
 
@@ -88,12 +94,26 @@ void main_sdl()
         return;
     }
 	
+	win_test_2 = SDL_CreateWindow("test 2!", 1000, 200, 800, 300, SDL_WINDOW_SHOWN);
+	 if (win_test_2 == NULL)
+		{
+		   
+			cout <<  "SDL_CreateWindow Error: %s\n" <<  SDL_GetError() << endl;
+			SDL_DestroyWindow(win_test_2);
+			SDL_Quit();
+			return;
+		}
 	
-
+	renderer_win_test_2 = SDL_CreateRenderer(win_test_2, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	if (renderer_win_test_2 == NULL)
+    {
+		cout <<  "SDL_CreateRenderer Error: %s\n" <<  SDL_GetError() << endl;
+		
+        SDL_DestroyWindow(win_test_2);
+        SDL_Quit();
+        return;
+    }
 	
-	
-	
-	//aassaasasqq
 	
 	
 	
@@ -109,7 +129,7 @@ void main_sdl()
 	
 	while(isRunning)
 	{
-		
+		/*
 	  tour++;
 	  this_thread::sleep_for(chrono::milliseconds(800));
 	  //SDL_Delay(800);
@@ -132,14 +152,37 @@ void main_sdl()
 		afficher_grille_SDL(renderer,jeu);
 		SDL_RenderClear(renderer);
 		
-		
+		*/
 		while( SDL_PollEvent( &ev ) != 0 ) 
 		{
 			switch (ev.type) 
 			{
+				
+				case SDL_WINDOWEVENT:
+				//--------------------------------------------------
+				switch ( ev.window.event )
+				{
+					case SDL_WINDOWEVENT_CLOSE:
+					isRunning = false;
+					cout << " dans window event close fermeture evenement type " << ev.type << endl;
+					fermeture_SDL(win,renderer);
+					SDL_DestroyWindow(win_test_2);
+					SDL_DestroyRenderer(renderer_win_test_2);
+					break;
+				}
+				
+				break;
+				//-----------------------------------------------------
+				
+				
+				
+				
+				/*
 				case SDL_QUIT:
 				isRunning = false;
+				cout << " fermeture evenement type " << ev.type << endl;
 				fermeture_SDL(win,renderer);
+				break;*/
 			}
 		
 		}
@@ -194,7 +237,7 @@ void afficher_grille_SDL(SDL_Renderer *renderer, Jeu_v2 pJeu )
         return;
 	}
 	
-	font = TTF_OpenFont("../../police/arial/ARIAL.ttf", 20);
+	font = TTF_OpenFont("../../police/arial/ARIAL.ttf", 15);
 	if ( !font ) {
 		cout << "Failed to load font: " << TTF_GetError() << endl;
 		SDL_DestroyWindow(win);
@@ -290,7 +333,7 @@ void afficher_grille_SDL(SDL_Renderer *renderer, Jeu_v2 pJeu )
 			 ss.str("");
 			 char_constant_coordonnees = NULL;
 		 
-		 
+			
 			 ss << i ;
 			 ss << "," ;
 			 ss << j ;
@@ -326,8 +369,6 @@ void afficher_grille_SDL(SDL_Renderer *renderer, Jeu_v2 pJeu )
 	 
 	 SDL_RenderPresent(renderer);
 	
-	TTF_CloseFont(font);
-	font=NULL;
 	
 }
 
