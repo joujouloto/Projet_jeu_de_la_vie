@@ -12,6 +12,8 @@ void main_sdl();
 
 void afficher_grille_SDL(SDL_Renderer *renderer,  Jeu_v2 pJeu );
 
+void afficher_legende(SDL_Renderer *renderer);
+
 
 void effacer_sdl(SDL_Window* window, SDL_Renderer * pRendu);
 
