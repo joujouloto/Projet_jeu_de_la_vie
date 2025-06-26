@@ -481,3 +481,28 @@
 1735867089 c:\projets_cplusplus\sdl3-devel-3.2.16-mingw\sdl3-3.2.16\x86_64-w64-mingw32\include\sdl3\sdl_oldnames.h
 	<SDL3/SDL_platform_defines.h>
 
+1750941465 source:c:\projets_cplusplus\jeudelavie\projet_jeu_de_la_vie\main.cpp
+	<SDL3/SDL.h>
+	<SDL3/SDL_main.h>
+	<SDL3_ttf/SDL_ttf.h>
+	<iostream>
+
+1740501596 c:\projets_cplusplus\sdl3-devel-3.2.16-mingw\sdl3-3.2.16\x86_64-w64-mingw32\include\sdl3\sdl_main.h
+	<SDL3/SDL_platform_defines.h>
+	<SDL3/SDL_stdinc.h>
+	<SDL3/SDL_error.h>
+	<SDL3/SDL_events.h>
+	"SDL_main_private.h"
+	<SDL3/SDL_init.h>
+	<SDL3/SDL_begin_code.h>
+	<SDL3/SDL_close_code.h>
+	<SDL3/SDL_main_impl.h>
+
+1735746352 c:\projets_cplusplus\sdl3-devel-3.2.16-mingw\sdl3-3.2.16\x86_64-w64-mingw32\include\sdl3\sdl_main_impl.h
+	"SDL_main_impl_private.h"
+
+1750939793 c:\projets_cplusplus\sdl3_ttf-devel-3.1.0-mingw\sdl3_ttf-3.1.0\x86_64-w64-mingw32\include\sdl3_ttf\sdl_ttf.h
+	<SDL3/SDL.h>
+	<SDL3/SDL_begin_code.h>
+	<SDL3/SDL_close_code.h>
+

@@ -1,4 +1,8 @@
+#define SDL_MAIN_USE_CALLBACKS 1  /* use the callbacks instead of main() */
 #include <SDL3/SDL.h>
+#include <SDL3/SDL_main.h>
+#include <SDL3_ttf/SDL_ttf.h>
+
 #include <iostream>
 
 using namespace std;
@@ -35,19 +39,6 @@ static int texture_hauteur = 0;
 
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
 {
-
-}
-
-
-
-int main(int argc, char *argv[])
-{
-
-
-
-    //On déclare un evenement que l'on va receptionner pour pouvoir fermer la fenêtre
-    SDL_Event event;
-
     //On déclare un tableau de caractères qui représente le chemin du fichier bmp que l'on va charger
     char * chemin_fichier_bmp = NULL;
 
@@ -77,7 +68,7 @@ int main(int argc, char *argv[])
 
     SDL_SetAppMetadata("Jeu de la vie", "1.0", "jeu_de_la_vie");
 
-    SDL_asprintf(&chemin_fichier_bmp, "%simages\\gaulois.bmp", SDL_GetBasePath());
+    SDL_asprintf(&chemin_fichier_bmp, "%simages\\carte.bmp", SDL_GetBasePath());
 
     surface_fichier_bmp_gaulois = SDL_LoadBMP(chemin_fichier_bmp);
 
@@ -104,11 +95,29 @@ int main(int argc, char *argv[])
 
     SDL_DestroySurface(surface_fichier_bmp_gaulois);
 
+
+
+     return SDL_APP_CONTINUE;
+}
+
+/* This function runs when a new event (mouse input, keypresses, etc) occurs. */
+SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
+{
+    if (event->type == SDL_EVENT_KEY_DOWN ||
+        event->type == SDL_EVENT_QUIT) {
+        return SDL_APP_SUCCESS;  /* end the program, reporting success to the OS. */
+    }
+    return SDL_APP_CONTINUE;
+}
+
+/* This function runs once per frame, and is the heart of the program. */
+SDL_AppResult SDL_AppIterate(void *appstate)
+{
     SDL_FRect dst_rect;
 
     /* center this one. */
-    dst_rect.x = 0;
-    dst_rect.y = 0;
+    dst_rect.x = 100;
+    dst_rect.y = 100;
     dst_rect.w = texture_largeur;
     dst_rect.h = texture_hauteur;
     SDL_RenderTexture(rendu_fenetre_principale, texture, NULL, &dst_rect);
@@ -116,18 +125,21 @@ int main(int argc, char *argv[])
     SDL_SetRenderDrawColor(rendu_fenetre_principale, 0x00, 0x00, 0x00, 0x00);
     SDL_RenderPresent(rendu_fenetre_principale);
 
-    while (1) {
-        SDL_PollEvent(&event);
-        if (event.type == SDL_EVENT_QUIT) {
-            break;
-        }
+    return SDL_APP_CONTINUE;
+}
 
-    }
 
+/* This function runs once at shutdown. */
+void SDL_AppQuit(void *appstate, SDL_AppResult result)
+{
     SDL_DestroyRenderer(rendu_fenetre_principale);
     SDL_DestroyWindow(fenetre_principale);
 
     SDL_Quit();
-
-    return 0;
 }
+
+
+
+
+
+
