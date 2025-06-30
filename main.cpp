@@ -172,8 +172,8 @@ void afficher_grille_SDL()
 	int espace = 20 ;
 
 
-    int debut_x = 30;
-    int debut_y = 0;
+    int debut_x = 50;
+    int debut_y = 50;
 
 
 
@@ -209,11 +209,11 @@ void afficher_grille_SDL()
 
 				  if ( gaulois->getAge() > 10 )
 				    {
-				      cout << " Gaulois adulte homme " << gaulois->getPosition().toString() << endl;
+
 				      SDL_RenderTexture(rendu_fenetre_principale, texture_gaulois, NULL, &single_rect);
 				    }else
 				    {
-				      cout << " Gaulois garcon " << gaulois->getPosition().toString() << endl;
+
 				      SDL_RenderTexture(rendu_fenetre_principale, texture_gaulois_enfant_garcon, NULL, &single_rect);
 				    }
 
@@ -222,19 +222,17 @@ void afficher_grille_SDL()
 				{
 				  if( gaulois->getAge() > 10 )
 				    {
-				      cout << " Gauloise adulte femme " << gaulois->getPosition().toString() << endl;
+
 					SDL_RenderTexture(rendu_fenetre_principale, texture_gauloise, NULL, &single_rect);
 				    }else
 				    {
-				      cout << " Gauloise fille " << gaulois->getPosition().toString() << endl;
+
 				      SDL_RenderTexture(rendu_fenetre_principale, texture_gaulois_fille, NULL, &single_rect);
 				    }
 				}
 
 		}else if((*it)->getType()=="Animal")
 		{
-		  cout << "Animal " << (*it)->getPosition().toString() << endl;
-
 			SDL_RenderTexture(rendu_fenetre_principale, texture_animal, NULL, &single_rect);
 
 		}
@@ -344,17 +342,17 @@ void afficher_legende()
 
 	 //------------------------------------- image gauloise ------------------------------------------------
 
-	 SDL_FRect * rectangle_image_gauloise = NULL;
+	 SDL_FRect rectangle_image_gauloise;
 
-	 rectangle_image_gauloise->x = 1000;
-	 rectangle_image_gauloise->y = 200;
-
-
-	 rectangle_image_gauloise->w = 50;
-	 rectangle_image_gauloise->h = 50;
+	 rectangle_image_gauloise.x = 1300;
+	 rectangle_image_gauloise.y = 200;
 
 
-	  SDL_RenderTexture(rendu_fenetre_principale, texture_gauloise, NULL, rectangle_image_gauloise);
+	 rectangle_image_gauloise.w = 50;
+	 rectangle_image_gauloise.h = 50;
+
+
+	  SDL_RenderTexture(rendu_fenetre_principale, texture_gauloise, NULL, &rectangle_image_gauloise);
 	 //------------------------------------- image gauloise ------------------------------------------------
 
 
@@ -368,8 +366,12 @@ void afficher_legende()
         return;
 	}
 
+	char * chemin_fichier_police_bmp = NULL;
 
-	font_titre_legende = TTF_OpenFont("../../police/arial/ARIAL.ttf", 20);
+
+    SDL_asprintf(&chemin_fichier_police_bmp, "%spolice\\arial\\ARIAL.ttf", SDL_GetBasePath());
+
+	font_titre_legende = TTF_OpenFont(chemin_fichier_police_bmp, 20);
 	if ( !font_titre_legende ) {
 		cout << "Failed to load font: " << SDL_GetError() << endl;
 		SDL_DestroyWindow(fenetre_principale);
@@ -380,14 +382,14 @@ void afficher_legende()
 
 	 SDL_Color color_titre_legende = { 255, 0, 0 };
 
-	 SDL_FRect * rectangle_titre_legende = NULL;
+	 SDL_FRect  rectangle_titre_legende;
 
-	 rectangle_titre_legende->x = 1100;
-	 rectangle_titre_legende->y = 150;
+	 rectangle_titre_legende.x = 1400;
+	 rectangle_titre_legende.y = 150;
 
-	 SDL_Surface * text_titre_legende = NULL;
+	 SDL_Surface * text_titre_legende;
 
-	 SDL_Texture * text_texture_titre_legende = NULL ;
+	 SDL_Texture * text_texture_titre_legende;
 
 
 	 int taille_texte = 7;
@@ -395,12 +397,12 @@ void afficher_legende()
 	 text_titre_legende = TTF_RenderText_Solid( font_titre_legende, "Legende",taille_texte, color_titre_legende );
 	 text_texture_titre_legende = SDL_CreateTextureFromSurface( rendu_fenetre_principale, text_titre_legende );
 
-	 rectangle_titre_legende->w = text_titre_legende->w;
-	 rectangle_titre_legende->h = text_titre_legende->h;
+	 rectangle_titre_legende.w = text_titre_legende->w;
+	 rectangle_titre_legende.h = text_titre_legende->h;
 
 
 
-	 SDL_RenderTexture( rendu_fenetre_principale, text_texture_titre_legende, NULL, rectangle_titre_legende );
+	 SDL_RenderTexture( rendu_fenetre_principale, text_texture_titre_legende, NULL, &rectangle_titre_legende );
 
 	 //------------------------------------- titre legende ------------------------------------------------
 
@@ -409,7 +411,7 @@ void afficher_legende()
 
 
 
-	 font_titre_gauloise = TTF_OpenFont("../../police/arial/ARIAL.ttf", 17);
+	 font_titre_gauloise = TTF_OpenFont(chemin_fichier_police_bmp, 17);
 	 if ( !font_titre_gauloise ) {
 		cout << "Failed to load font: " << SDL_GetError() << endl;
 		SDL_DestroyWindow(fenetre_principale);
@@ -419,40 +421,40 @@ void afficher_legende()
 
 	 SDL_Color color_titre_gauloise = { 255, 150, 0 };
 
-	 SDL_FRect * rectangle_titre_gauloise = NULL;
+	 SDL_FRect rectangle_titre_gauloise;
 
-	 rectangle_titre_gauloise->x = 990;
-	 rectangle_titre_gauloise->y = 255;
+	 rectangle_titre_gauloise.x = 1290;
+	 rectangle_titre_gauloise.y = 255;
 
-	 SDL_Surface * text_titre_gauloise = NULL;
+	 SDL_Surface * text_titre_gauloise;
 
-	 SDL_Texture * text_texture_titre_gauloise = NULL ;
+	 SDL_Texture * text_texture_titre_gauloise;
 
 	 taille_texte = 8;
 
 	 text_titre_gauloise = TTF_RenderText_Solid( font_titre_gauloise, "Gauloise",taille_texte, color_titre_gauloise );
 	 text_texture_titre_gauloise = SDL_CreateTextureFromSurface( rendu_fenetre_principale, text_titre_gauloise );
 
-	 rectangle_titre_gauloise->w = text_titre_gauloise->w;
-	 rectangle_titre_gauloise->h = text_titre_gauloise->h;
+	 rectangle_titre_gauloise.w = text_titre_gauloise->w;
+	 rectangle_titre_gauloise.h = text_titre_gauloise->h;
 
-	 SDL_RenderTexture( rendu_fenetre_principale, text_texture_titre_gauloise, NULL, rectangle_titre_gauloise );
+	 SDL_RenderTexture( rendu_fenetre_principale, text_texture_titre_gauloise, NULL, &rectangle_titre_gauloise );
 
 	 //------------------------------------- titre gauloise ------------------------------------------------
 
 
 	 //------------------------------------- image gaulois ------------------------------------------------
-	 SDL_FRect * rectangle_image_gaulois;
+	 SDL_FRect rectangle_image_gaulois;
 
-	 rectangle_image_gaulois->x = 1100;
-	 rectangle_image_gaulois->y = 200;
-
-
-	 rectangle_image_gaulois->w = 50;
-	 rectangle_image_gaulois->h = 50;
+	 rectangle_image_gaulois.x = 1400;
+	 rectangle_image_gaulois.y = 200;
 
 
-	  SDL_RenderTexture(rendu_fenetre_principale, texture_gaulois, NULL, rectangle_image_gaulois);
+	 rectangle_image_gaulois.w = 50;
+	 rectangle_image_gaulois.h = 50;
+
+
+	  SDL_RenderTexture(rendu_fenetre_principale, texture_gaulois, NULL, &rectangle_image_gaulois);
 
 
 
@@ -463,7 +465,7 @@ void afficher_legende()
 
 	 TTF_Font * font_titre_gaulois;
 
-	 font_titre_gaulois = TTF_OpenFont("../../police/arial/ARIAL.ttf", 17);
+	 font_titre_gaulois = TTF_OpenFont(chemin_fichier_police_bmp, 17);
 	 if ( !font_titre_gauloise ) {
 		cout << "Failed to load font: " << SDL_GetError() << endl;
 		SDL_DestroyWindow(fenetre_principale);
@@ -473,24 +475,24 @@ void afficher_legende()
 
 	 SDL_Color color_titre_gaulois = { 255, 170, 0 };
 
-	 SDL_FRect * rectangle_titre_gaulois = NULL;
+	 SDL_FRect rectangle_titre_gaulois;
 
-	 rectangle_titre_gaulois->x = 1100;
-	 rectangle_titre_gaulois->y = 255;
+	 rectangle_titre_gaulois.x = 1400;
+	 rectangle_titre_gaulois.y = 255;
 
-	 SDL_Surface * text_titre_gaulois = NULL;
+	 SDL_Surface * text_titre_gaulois;
 
-	 SDL_Texture * text_texture_titre_gaulois = NULL ;
+	 SDL_Texture * text_texture_titre_gaulois;
 
 	 taille_texte = 7;
 
 	 text_titre_gaulois = TTF_RenderText_Solid( font_titre_gaulois, "Gaulois", taille_texte,color_titre_gaulois );
 	 text_texture_titre_gaulois = SDL_CreateTextureFromSurface( rendu_fenetre_principale, text_titre_gaulois );
 
-	 rectangle_titre_gaulois->w = text_titre_gaulois->w;
-	 rectangle_titre_gaulois->h = text_titre_gaulois->h;
+	 rectangle_titre_gaulois.w = text_titre_gaulois->w;
+	 rectangle_titre_gaulois.h = text_titre_gaulois->h;
 
-	 SDL_RenderTexture( rendu_fenetre_principale, text_texture_titre_gaulois, NULL, rectangle_titre_gaulois );
+	 SDL_RenderTexture( rendu_fenetre_principale, text_texture_titre_gaulois, NULL, &rectangle_titre_gaulois );
 
     SDL_DestroyTexture(text_texture_titre_gaulois);
 
@@ -500,17 +502,17 @@ void afficher_legende()
 
 	 //------------------------------------- image gaulois enfant garcon ------------------------------------------------
 
-	 SDL_FRect * rectangle_image_gaulois_enfant_garcon = NULL;
+	 SDL_FRect rectangle_image_gaulois_enfant_garcon;
 
-	 rectangle_image_gaulois_enfant_garcon->x = 1200;
-	 rectangle_image_gaulois_enfant_garcon->y = 200;
-
-
-	 rectangle_image_gaulois_enfant_garcon->w = 50;
-	 rectangle_image_gaulois_enfant_garcon->h = 50;
+	 rectangle_image_gaulois_enfant_garcon.x = 1500;
+	 rectangle_image_gaulois_enfant_garcon.y = 200;
 
 
-	  SDL_RenderTexture(rendu_fenetre_principale, texture_gaulois_enfant_garcon, NULL, rectangle_image_gaulois_enfant_garcon);
+	 rectangle_image_gaulois_enfant_garcon.w = 50;
+	 rectangle_image_gaulois_enfant_garcon.h = 50;
+
+
+	  SDL_RenderTexture(rendu_fenetre_principale, texture_gaulois_enfant_garcon, NULL, &rectangle_image_gaulois_enfant_garcon);
 
 
 	 //------------------------------------- image gaulois enfant garcon ------------------------------------------------
@@ -519,7 +521,7 @@ void afficher_legende()
 
 	  TTF_Font * font_titre_gaulois_enfant_garcon;
 
-	 font_titre_gaulois_enfant_garcon = TTF_OpenFont("../../police/arial/ARIAL.ttf", 17);
+	 font_titre_gaulois_enfant_garcon = TTF_OpenFont(chemin_fichier_police_bmp, 17);
 	 if ( !font_titre_gaulois_enfant_garcon ) {
 		cout << "Failed to load font: " << SDL_GetError() << endl;
 		SDL_DestroyWindow(fenetre_principale);
@@ -529,24 +531,24 @@ void afficher_legende()
 
 	 SDL_Color color_titre_gaulois_enfant_garcon = { 255, 190, 0 };
 
-	 SDL_FRect * rectangle_titre_gaulois_enfant_garcon = NULL;
+	 SDL_FRect rectangle_titre_gaulois_enfant_garcon;
 
-	 rectangle_titre_gaulois_enfant_garcon->x = 1190;
-	 rectangle_titre_gaulois_enfant_garcon->y = 255;
+	 rectangle_titre_gaulois_enfant_garcon.x = 1490;
+	 rectangle_titre_gaulois_enfant_garcon.y = 255;
 
-	 SDL_Surface * text_titre_gaulois_enfant_garcon = NULL;
+	 SDL_Surface * text_titre_gaulois_enfant_garcon;
 
-	 SDL_Texture * text_texture_titre_gaulois_enfant_garcon = NULL ;
+	 SDL_Texture * text_texture_titre_gaulois_enfant_garcon;
 
-	 taille_texte = 20;
+	 taille_texte = 21;
 
 	 text_titre_gaulois_enfant_garcon = TTF_RenderText_Solid( font_titre_gaulois_enfant_garcon, "Gaulois enfant garcon",taille_texte, color_titre_gaulois_enfant_garcon );
 	 text_texture_titre_gaulois_enfant_garcon = SDL_CreateTextureFromSurface( rendu_fenetre_principale, text_titre_gaulois_enfant_garcon );
 
-	 rectangle_titre_gaulois_enfant_garcon->w = text_titre_gaulois_enfant_garcon->w;
-	 rectangle_titre_gaulois_enfant_garcon->h = text_titre_gaulois_enfant_garcon->h;
+	 rectangle_titre_gaulois_enfant_garcon.w = text_titre_gaulois_enfant_garcon->w;
+	 rectangle_titre_gaulois_enfant_garcon.h = text_titre_gaulois_enfant_garcon->h;
 
-	 SDL_RenderTexture( rendu_fenetre_principale, text_texture_titre_gaulois_enfant_garcon, NULL, rectangle_titre_gaulois );
+	 SDL_RenderTexture( rendu_fenetre_principale, text_texture_titre_gaulois_enfant_garcon, NULL, &rectangle_titre_gaulois_enfant_garcon );
 
 
 	 //------------------------------------- titre gaulois enfant garcon ------------------------------------------------
@@ -757,7 +759,7 @@ SDL_AppResult SDL_AppIterate(void *appstate)
     SDL_SetRenderDrawColor(rendu_fenetre_principale, 0x00, 0x00, 0x00, 0x00);
 
     afficher_grille_SDL();
-    //afficher_legende();
+    afficher_legende();
 
 
 
