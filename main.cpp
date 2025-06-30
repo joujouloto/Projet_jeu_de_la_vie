@@ -187,9 +187,6 @@ void afficher_grille_SDL()
 		single_rect.x =  (pos_x + espace) * (*it)->getPosition().getAbscisse() + debut_x ;
 		single_rect.y = (pos_y + espace) * (*it)->getPosition().getOrdonnee() + debut_y;
 
-        cout << (*it)->getPosition().getAbscisse() << endl;
-        cout << (*it)->getPosition().getOrdonnee() << endl;
-
 		if((*it)->getType()=="Arbre")
 		{
 					SDL_RenderTexture(rendu_fenetre_principale, texture_arbre, NULL, &single_rect);
@@ -504,7 +501,7 @@ void afficher_legende()
 
 	 SDL_FRect rectangle_image_gaulois_enfant_garcon;
 
-	 rectangle_image_gaulois_enfant_garcon.x = 1500;
+	 rectangle_image_gaulois_enfant_garcon.x = 1530;
 	 rectangle_image_gaulois_enfant_garcon.y = 200;
 
 
