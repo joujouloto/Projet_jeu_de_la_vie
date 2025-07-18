@@ -43,6 +43,18 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="main.cpp" />
+		<Unit filename="src/Animal.cpp" />
+		<Unit filename="src/Animal.h" />
+		<Unit filename="src/Arbre.cpp" />
+		<Unit filename="src/Arbre.h" />
+		<Unit filename="src/Gaulois.cpp" />
+		<Unit filename="src/Gaulois.h" />
+		<Unit filename="src/Jeu_v2.cpp" />
+		<Unit filename="src/Jeu_v2.h" />
+		<Unit filename="src/Objet.cpp" />
+		<Unit filename="src/Objet.h" />
+		<Unit filename="src/Position.cpp" />
+		<Unit filename="src/Position.h" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

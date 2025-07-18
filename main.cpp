@@ -21,6 +21,9 @@ using namespace std;
 //------------------------------Déclaration de constantes décrviant les dimensions et la position de la première fenêtre SDL---------------------------------------
 
 
+#define UNE_SECONDE 1000
+
+
 
 //On déclare la fenêtre principale
 
@@ -66,7 +69,7 @@ SDL_Texture * texture_animal = NULL;
 
 SDL_Texture * texture_gaulois_enfant_garcon = NULL;
 
-SDL_Texture * texture_gaulois_fille = NULL;
+SDL_Texture * texture_gaulois_enfant_fille = NULL;
 
 //ecrire du texte dans sdl
 
@@ -90,6 +93,12 @@ SDL_Texture * text_texture = NULL ;
 //---------------------------
 
 Jeu_v2 jeu;
+
+
+unsigned int dernier_temps = 0;
+unsigned int temps_courant = 0;
+
+int tour = 1;
 
 
 void charger_images()
@@ -165,7 +174,7 @@ void afficher_grille_SDL()
 
 	texture_gaulois_enfant_garcon = SDL_CreateTextureFromSurface(rendu_fenetre_principale, image_gaulois_enfant_garcon);
 
-	texture_gaulois_fille = SDL_CreateTextureFromSurface(rendu_fenetre_principale, image_gaulois_enfant_fille);
+	texture_gaulois_enfant_fille = SDL_CreateTextureFromSurface(rendu_fenetre_principale, image_gaulois_enfant_fille);
 
 	int pos_x = 50;
 	int pos_y = 50;
@@ -224,7 +233,7 @@ void afficher_grille_SDL()
 				    }else
 				    {
 
-				      SDL_RenderTexture(rendu_fenetre_principale, texture_gaulois_fille, NULL, &single_rect);
+				      SDL_RenderTexture(rendu_fenetre_principale, texture_gaulois_enfant_fille, NULL, &single_rect);
 				    }
 				}
 
@@ -355,7 +364,7 @@ void afficher_legende()
 
 	 //------------------------------------- titre legende ------------------------------------------------
 
-	 if ( TTF_Init() < 0 )
+	 if ( !TTF_Init() )
 	{
 		cout << "Error initializing SDL_ttf: " << SDL_GetError() << endl;
 		SDL_DestroyWindow(fenetre_principale);
@@ -501,7 +510,7 @@ void afficher_legende()
 
 	 SDL_FRect rectangle_image_gaulois_enfant_garcon;
 
-	 rectangle_image_gaulois_enfant_garcon.x = 1530;
+	 rectangle_image_gaulois_enfant_garcon.x = 1500;
 	 rectangle_image_gaulois_enfant_garcon.y = 200;
 
 
@@ -537,9 +546,9 @@ void afficher_legende()
 
 	 SDL_Texture * text_texture_titre_gaulois_enfant_garcon;
 
-	 taille_texte = 21;
+	 taille_texte = 6;
 
-	 text_titre_gaulois_enfant_garcon = TTF_RenderText_Solid( font_titre_gaulois_enfant_garcon, "Gaulois enfant garcon",taille_texte, color_titre_gaulois_enfant_garcon );
+	 text_titre_gaulois_enfant_garcon = TTF_RenderText_Solid( font_titre_gaulois_enfant_garcon, "Garcon",taille_texte, color_titre_gaulois_enfant_garcon );
 	 text_texture_titre_gaulois_enfant_garcon = SDL_CreateTextureFromSurface( rendu_fenetre_principale, text_titre_gaulois_enfant_garcon );
 
 	 rectangle_titre_gaulois_enfant_garcon.w = text_titre_gaulois_enfant_garcon->w;
@@ -549,6 +558,120 @@ void afficher_legende()
 
 
 	 //------------------------------------- titre gaulois enfant garcon ------------------------------------------------
+
+	 //----------------------------------------------------image gaulois enfant fille----------------------------------------------------------------
+
+
+	 SDL_FRect rectangle_image_gaulois_enfant_fille;
+
+	 rectangle_image_gaulois_enfant_fille.x = 1300;
+	 rectangle_image_gaulois_enfant_fille.y = 320;
+
+
+	 rectangle_image_gaulois_enfant_fille.w = 50;
+	 rectangle_image_gaulois_enfant_fille.h = 50;
+
+
+	  SDL_RenderTexture(rendu_fenetre_principale, texture_gaulois_enfant_fille, NULL, &rectangle_image_gaulois_enfant_fille);
+
+
+	 //-----------------------------------------------------image gaulois enfant fille---------------------------------------------------------------
+
+
+	 //-----------------------------------------------------titre gaulois enfant fille---------------------------------------------------------------------
+
+	 TTF_Font * font_titre_gaulois_enfant_fille = TTF_OpenFont(chemin_fichier_police_bmp, 17);
+	 if ( !font_titre_gaulois_enfant_fille ) {
+		cout << "Failed to load font: " << SDL_GetError() << endl;
+		SDL_DestroyWindow(fenetre_principale);
+        SDL_Quit();
+        return;
+	 }
+
+	  SDL_Color color_titre_gaulois_enfant_fille = { 255, 190, 0 };
+
+      SDL_FRect rectangle_titre_gaulois_enfant_fille;
+
+	  rectangle_titre_gaulois_enfant_fille.x = 1310;
+	  rectangle_titre_gaulois_enfant_fille.y = 380;
+
+      SDL_Surface * text_titre_gaulois_enfant_fille;
+
+	 SDL_Texture * text_texture_titre_gaulois_enfant_fille;
+
+	 taille_texte = 5;
+
+	 text_titre_gaulois_enfant_fille = TTF_RenderText_Solid( font_titre_gaulois_enfant_fille, "Fille",taille_texte, color_titre_gaulois_enfant_fille );
+	 text_texture_titre_gaulois_enfant_fille = SDL_CreateTextureFromSurface( rendu_fenetre_principale, text_titre_gaulois_enfant_fille );
+
+	 rectangle_titre_gaulois_enfant_fille.w = text_titre_gaulois_enfant_fille->w;
+	 rectangle_titre_gaulois_enfant_fille.h = text_titre_gaulois_enfant_fille->h;
+
+	 SDL_RenderTexture( rendu_fenetre_principale, text_texture_titre_gaulois_enfant_fille, NULL, &rectangle_titre_gaulois_enfant_fille );
+
+	 //--------------------------------------------------titre gaulois enfant fille------------------------------------------------------------------------------
+
+
+	 //-------------------------------------------------image sanglier ----------------------------------------------------------------------------------------
+
+
+     SDL_FRect rectangle_image_sanglier;
+
+	 rectangle_image_sanglier.x = 1380;
+	 rectangle_image_sanglier.y = 320;
+
+
+	 rectangle_image_sanglier.w = 50;
+	 rectangle_image_sanglier.h = 50;
+
+
+     SDL_RenderTexture(rendu_fenetre_principale, texture_animal, NULL, &rectangle_image_sanglier);
+
+
+
+	 //--------------------------------------------------image sanglier----------------------------------------------------------------------------
+
+
+	 //--------------------------------------------------------------------------------------
+
+
+	 TTF_Font * font_titre_animal = TTF_OpenFont(chemin_fichier_police_bmp, 17);
+	 if ( !font_titre_animal ) {
+		cout << "Failed to load font: " << SDL_GetError() << endl;
+		SDL_DestroyWindow(fenetre_principale);
+        SDL_Quit();
+        return;
+	 }
+
+	  SDL_Color color_titre_animal = { 255, 190, 0 };
+
+      SDL_FRect rectangle_titre_animal;
+
+	  rectangle_titre_animal.x = 1380;
+	  rectangle_titre_animal.y = 380;
+
+      SDL_Surface * text_titre_animal;
+
+	 SDL_Texture * text_texture_titre_animal;
+
+	 taille_texte = 8;
+
+	 text_titre_animal = TTF_RenderText_Solid( font_titre_animal, "Sanglier",taille_texte, color_titre_animal );
+	 text_texture_titre_animal = SDL_CreateTextureFromSurface( rendu_fenetre_principale, text_titre_animal );
+
+	 rectangle_titre_animal.w = text_titre_animal->w;
+	 rectangle_titre_animal.h = text_titre_animal->h;
+
+	 SDL_RenderTexture( rendu_fenetre_principale, text_texture_titre_animal, NULL, &rectangle_titre_animal );
+
+
+	 //-----------------------------------------------------------------------------------------
+
+
+
+
+
+
 
 
 }
@@ -646,7 +769,7 @@ void fermeture_SDL()
 
 	SDL_DestroyTexture(texture_gaulois_enfant_garcon);
 
-	SDL_DestroyTexture(texture_gaulois_fille);
+	SDL_DestroyTexture(texture_gaulois_enfant_fille);
 
 	SDL_DestroyTexture(text_texture);
 
@@ -742,6 +865,13 @@ SDL_AppResult SDL_AppIterate(void *appstate)
 {
     SDL_FRect dst_rect;
 
+    temps_courant = SDL_GetTicks();
+
+
+
+
+
+
     /* center this one. */
     dst_rect.x = 100;
     dst_rect.y = 100;
@@ -757,6 +887,29 @@ SDL_AppResult SDL_AppIterate(void *appstate)
 
     afficher_grille_SDL();
     afficher_legende();
+
+    if(temps_courant > 3*UNE_SECONDE + dernier_temps   )
+    {
+        jeu.faire_deplacer_elements();
+
+        jeu.faire_manger_gaulois();
+
+		if( tour % 3 == 0 )
+        {
+
+		    jeu.faire_reproduire_population();
+        }
+
+		jeu.faire_vieillir_population_gauloise();
+
+
+
+        dernier_temps = temps_courant;
+
+        tour++;
+    }
+
+
 
 
 
