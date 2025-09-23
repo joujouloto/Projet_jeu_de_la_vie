@@ -98,6 +98,8 @@ Jeu_v2 jeu;
 unsigned int dernier_temps = 0;
 unsigned int temps_courant = 0;
 
+
+
 int tour = 1;
 
 
@@ -666,12 +668,6 @@ void afficher_legende()
 
 
 	 //-----------------------------------------------------------------------------------------
-
-
-
-
-
-
 
 
 }
